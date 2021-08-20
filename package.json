@@ -1,0 +1,70 @@
+{
+  "name": "next-blogs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next  -p 5500 -H local.leroy.net.cn",
+    "build": "next build",
+    "start": "next start -p 5500",
+    "publish": "next build && node kodo.js",
+    "pm2": "pm2 delete next-blogs && pm2 start npm --no-pmx --name next-blogs -- start",
+    "type-check": "tsc",
+    "analyze": "cross-env ANALYZE=true yarn build",
+    "lint": "npm run lint:js && npm run lint:prettier",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:prettier": "prettier --check \"src/**/*\" --end-of-line auto",
+    "lint:style": "stylelint --fix \"src/**/*.scss\" --syntax scss",
+    "precommit": "lint-staged",
+    "prettier": "prettier -c --write \"src/**/*\""
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.6.3",
+    "antd": "^4.16.12",
+    "axios": "^0.21.1",
+    "classnames": "^2.3.1",
+    "dayjs": "^1.10.6",
+    "next": "^11.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.38.0"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^13.1.0",
+    "@next/bundle-analyzer": "^9.5.5",
+    "@types/node": "^16.6.2",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@umijs/fabric": "^2.6.4",
+    "antd-dayjs-webpack-plugin": "^1.0.6",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "co": "^4.6.0",
+    "commitlint": "^13.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.24.0",
+    "eslint-config-next": "^11.1.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.0.7",
+    "path": "^0.12.7",
+    "prettier": "^2.3.2",
+    "qiniu": "^7.3.2",
+    "rd": "^2.0.1",
+    "stylelint": "^13.13.1",
+    "terser-webpack-plugin": "^5.1.4",
+    "typescript": "^4.3.5"
+  }
+}

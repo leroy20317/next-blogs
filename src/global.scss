@@ -1,0 +1,160 @@
+/**
+* @name: global
+* @author: leroy
+* @date: 2021/8/20 20:26
+* @description：global
+*/
+
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+del,
+em,
+img,
+strong,
+dd,
+dl,
+dt,
+li,
+ol,
+ul,
+form,
+label {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body,
+a,
+input,
+button,
+textarea {
+  color: #666;
+  font-size: 14px;
+  font-family: "eafont", "Hiragino Sans GB", "Hiragino Sans GB W3",
+    "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  text-decoration: none;
+  word-spacing: 1px;
+  outline: none;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+  border: 0;
+}
+
+input[type="button"],
+input[type="submit"],
+input[type="file"],
+button {
+  cursor: pointer;
+}
+
+#__next {
+  min-height: 100vh;
+}
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  content: ".";
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+::-webkit-scrollbar {
+  box-sizing: border-box;
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #f1f1f1;
+  -webkit-border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  // background-color: #e7e7e7;
+  background-color: #c4cbd3;
+  // border:1px solid rgba(0, 0, 0, 0.21);
+  -webkit-border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  // background-color: #f6f6f6;
+  background-color: #c4cbd3;
+  // border: 1px solid rgba(0, 0, 0, 0.21);
+}
+
+::-webkit-scrollbar-track-piece {
+  // background-color: #fff;
+  // background-color: rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 5px;
+}
+
+@font-face {
+  font-family: "eafont";
+  font-style: normal;
+  src: url("/public/font/eafont.ttf") format("truetype");
+}
+
+.page {
+  transition: all 500ms;
+}
+
+.page-enter {
+  transform: translate(50px, 0);
+  opacity: 0;
+}
+
+.page-leave-active {
+  transform: translate(-50px, 0);
+  opacity: 0;
+}
+
+:root {
+  --colorBar: #50bcb6;
+  --colorActive: #0084ff;
+  --colorComment: #ef6d57;
+  --colorDefault: #24292e;
+}

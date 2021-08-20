@@ -1,0 +1,16 @@
+/lambda/
+/scripts
+/config
+.history
+.eslintrc.js
+tsconfig.json
+next.config.js
+next-env.d.ts
+commitlint.config.js
+.prettierrc.js
+.stylelintrc.js
+oss.js
+server.js
+sentry.client.config.js
+sentry.server.config.js
+kodo.js
