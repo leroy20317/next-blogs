@@ -18,70 +18,6 @@ const uploadToken = putPolicy.uploadToken(mac);
 const formUploader = new qiniu.form_up.FormUploader(config);
 const putExtra = new qiniu.form_up.PutExtra();
 
-// 异步遍历目录下的所有文件
-rd.each(
-  path.join(__dirname, '/.nuxt/dist/client'),
-  function (f, s, next) {
-    putExtra.mimeType = null;
-    if (s.isFile()) {
-      co(function* () {
-        try {
-          const result = yield upload(
-            f.replace(path.join(__dirname, '/.nuxt/dist'), folderName),
-            f,
-          );
-          return result;
-        } catch (error) {
-          console.log(error);
-        }
-        // return result;
-      }).then(function () {
-        console.log(
-          `上传文件至 https://cdn.leroy.net.cn/${f.replace(
-            path.join(__dirname, '/.nuxt/dist'),
-            folderName,
-          )} 成功`,
-        );
-      });
-    }
-    next();
-  },
-  function (err) {
-    if (err) throw err;
-  },
-);
-
-rd.each(
-  path.join(__dirname, '/static'),
-  function (f, s, next) {
-    putExtra.mimeType = null;
-    if (s.isFile()) {
-      co(function* () {
-        try {
-          const result = yield upload(
-            f.replace(path.join(__dirname, '/static'), `${folderName}/static`),
-            f,
-          );
-          return result;
-        } catch (error) {
-          console.log(error);
-        }
-      }).then(function () {
-        console.log(
-          `上传文件至 https://cdn.leroy.net.cn${f.replace(
-            path.join(__dirname, '/static'),
-            `${folderName}/static`,
-          )} 成功`,
-        );
-      });
-    }
-    next();
-  },
-  function (err) {
-    if (err) throw err;
-  },
-);
-
 const upload = function (key, localFile) {
   return new Promise((resolve, reject) => {
     // 文件上传
@@ -107,3 +43,60 @@ const upload = function (key, localFile) {
     );
   });
 };
+
+// 异步遍历目录下的所有文件
+rd.each(
+  path.join(__dirname, './build/static'),
+  function (f, s, next) {
+    putExtra.mimeType = null;
+    if (s.isFile()) {
+      let ossName = f.replace(path.join(__dirname, '/build'), `${folderName}/_next`);
+      ossName = path.normalize(ossName).replace(/\\/g, '/');
+
+      co(function* () {
+        try {
+          const result = yield upload(ossName, f);
+          return result;
+        } catch (error) {
+          console.log(error);
+        }
+        // return result;
+      }).then(function () {
+        console.log(`上传文件至 https://cdn.leroy.net.cn/${ossName} 成功`);
+      });
+    }
+    next();
+  },
+  function (err) {
+    if (err) throw err;
+  },
+);
+
+rd.each(
+  path.join(__dirname, './public/static'),
+  function (f, s, next) {
+    putExtra.mimeType = null;
+    if (s.isFile()) {
+      let ossName = f.replace(__dirname, folderName);
+      ossName = path
+        .normalize(ossName)
+        .replace(/\\/g, '/')
+        .replace(/public\//g, '');
+
+      co(function* () {
+        try {
+          const result = yield upload(ossName, f);
+          return result;
+        } catch (error) {
+          console.log(error);
+        }
+      }).then(function () {
+        console.log(`上传文件至 https://cdn.leroy.net.cn${ossName} 成功`);
+      });
+    }
+    next();
+  },
+  function (err) {
+    if (err) throw err;
+  },
+);

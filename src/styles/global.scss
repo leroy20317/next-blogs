@@ -1,5 +1,4 @@
 /**
-* @name: global
 * @author: leroy
 * @date: 2021/8/20 20:26
 * @description：global
@@ -43,7 +42,7 @@ a,
 input,
 button,
 textarea {
-  color: #666;
+  color: #333;
   font-size: 14px;
   font-family: "eafont", "Hiragino Sans GB", "Hiragino Sans GB W3",
     "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
@@ -135,7 +134,7 @@ button {
 @font-face {
   font-family: "eafont";
   font-style: normal;
-  src: url("/public/font/eafont.ttf") format("truetype");
+  src: url("#{$static}/font/eafont.ttf") format("truetype");
 }
 
 .page {
@@ -152,9 +151,3 @@ button {
   opacity: 0;
 }
 
-:root {
-  --colorBar: #50bcb6;
-  --colorActive: #0084ff;
-  --colorComment: #ef6d57;
-  --colorDefault: #24292e;
-}

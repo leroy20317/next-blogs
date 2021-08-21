@@ -5,8 +5,10 @@
  * @description：_app
  */
 import type { AppProps } from 'next/app';
-import '../global.scss';
-import '../iconfont.css';
+import 'antd/dist/antd.css';
+import '@/styles/global.scss';
+import '@/styles/var.scss';
+import '@/styles/iconfont.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
