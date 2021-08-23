@@ -51,8 +51,8 @@ const nextConfig = {
             warnings: false,
             extractComments: false, // 移除注释
             compress: {
-              drop_console: isProd,
-              drop_debugger: isProd,
+              drop_console: true,
+              drop_debugger: true,
             },
           },
         }),
