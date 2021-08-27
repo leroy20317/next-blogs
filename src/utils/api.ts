@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { notification } from 'antd';
+import qs from 'qs';
 
 const instance = axios.create({
   baseURL: process.env.API_HOST,
@@ -8,9 +9,6 @@ const instance = axios.create({
     ...(typeof window === 'undefined' && { Connection: 'keep-alive' }),
   },
 });
-let cancel;
-const pending: any = {};
-
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -30,23 +28,40 @@ const codeMessage: Record<number, string> = {
   504: '网关超时。',
 };
 
+const pending = new Map();
+
+// 清空 pending 中的请求（在路由跳转时调用）
+export const clearPending = () => {
+  pending.forEach(function (cancel, url) {
+    cancel(url);
+  });
+  pending.clear();
+};
 // 请求拦截器
 instance.interceptors.request.use(
   (config) => {
     // 发起请求时，取消掉当前正在进行的相同请求
-    const { url }: any = config;
-    if (pending[url]) {
-      pending[url]('操作取消');
-      pending[url] = cancel;
+    const url = [
+      config.method,
+      config.url,
+      qs.stringify(config.params),
+      qs.stringify(config.data),
+    ].join('&');
+    if (pending.has(url)) {
+      // 如果在 pending 中存在当前请求标识，需要取消当前请求，并且移除
+      const cancel = pending.get(url);
+      cancel(url);
+      pending.delete(url);
     } else {
-      pending[url] = cancel;
+      config.cancelToken =
+        config.cancelToken ||
+        new axios.CancelToken((cancel) => {
+          pending.set(url, cancel);
+        });
     }
+
     // 转变数据格式
-    if (
-      config.headers['Content-Type'] &&
-      config.headers['Content-Type'] === 'application/x-www-form-urlencoded'
-    ) {
-      // eslint-disable-next-line no-param-reassign
+    if (config?.headers?.['Content-Type'] === 'application/x-www-form-urlencoded') {
       config.transformRequest = (data) => {
         const str = Object.keys(data).map(
           (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`,

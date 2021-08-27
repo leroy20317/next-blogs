@@ -3,20 +3,45 @@
  * @date: 2021/8/20 20:30
  * @description：_app
  */
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
+import ErrorPage from 'next/error';
+import wrapper from '@/store/store';
+import { save } from '@/store/slices/userSlice';
+import { clearPending } from '@/utils/api';
+
 import 'antd/dist/antd.css';
 import '@/styles/global.scss';
 import '@/styles/var.scss';
 import '@/styles/iconfont.scss';
-import ErrorPage from 'next/error';
-
-import wrapper from '@/store/store';
-import { save } from '@/store/slices/userSlice';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleStart = (url) => {
+      console.log(`Loading: ${url}`);
+    };
+    const handleStop = () => {
+      clearPending();
+    };
+
+    router.events.on('routeChangeStart', handleStart);
+    router.events.on('routeChangeComplete', handleStop);
+    router.events.on('routeChangeError', handleStop);
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeComplete', handleStop);
+      router.events.off('routeChangeError', handleStop);
+    };
+  }, [router]);
+
   if ([404, 500].includes(pageProps.statusCode)) {
     return <ErrorPage statusCode={pageProps.statusCode} />;
   }
+
   return <Component {...pageProps} />;
 }
 
