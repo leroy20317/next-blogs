@@ -1,7 +1,7 @@
 /**
  * @author: leroy
  * @date: 2021/8/21 09:54
- * @description：首页
+ * @description：page
  */
 import type { NextPage } from 'next';
 import Link from 'next/link';
@@ -11,13 +11,11 @@ import styles from '@/styles/pages/home.module.scss';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import locale from 'antd/lib/locale/zh_CN';
-import wrapper, { useAppDispatch, useAppSelector } from '@/store/store';
+import wrapper, { useAppSelector } from '@/store/store';
 import { useEffect } from 'react';
-import { incrementIfOdd } from '@/store/slices/userSlice';
-import { incrementAsync } from '@/store/slices/counterSlice';
+import { incrementAsync } from '@/store/slices/userSlice';
 
-const Home: NextPage = (props) => {
-  const dispatch = useAppDispatch();
+const Page: NextPage = (props) => {
   const counter = useAppSelector((state) => state.counter);
   const user = useAppSelector((state) => state.user);
 
@@ -26,28 +24,25 @@ const Home: NextPage = (props) => {
   }, []);
   return (
     <div className={styles.box}>
-      首页
+      Page
       <ConfigProvider locale={locale}>
         <DatePicker defaultValue={moment('2015-01-01', 'YYYY-MM-DD')} />
       </ConfigProvider>
       <span className="iconfont icon-close"></span>
-      <Link href="/page">
-        <a>go to page</a>
+      <Link href="/">
+        <a>go to home</a>
       </Link>
-      <button onClick={() => dispatch(incrementIfOdd(22))}>+++</button>
-      <button onClick={() => dispatch(incrementAsync(211))}>incrementAsync</button>
+      <p>{JSON.stringify({ counter, user })}</p>
     </div>
   );
 };
 
-Home.getInitialProps = wrapper.getInitialPageProps((store) => async ({ req }) => {
+Page.getInitialProps = wrapper.getInitialPageProps((store) => async ({ req }) => {
   if (req) {
-    console.log('------Home 服务端------');
-    await store.dispatch(incrementAsync(33));
-    // res?.setHeader('Set-Cookie', [`aa=11; path=/;`]);
-    // res?.writeHead(302, {Location: '/page'}).end()
+    console.log('------Page 服务端------');
+    await store.dispatch(incrementAsync(1));
   }
   return {};
 });
 
-export default Home;
+export default Page;

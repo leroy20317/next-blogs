@@ -1,17 +1,13 @@
-import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import { notification } from 'antd';
 
-const instanceConfig: AxiosRequestConfig = {
+const instance = axios.create({
   baseURL: process.env.API_HOST,
   withCredentials: true,
-};
-if (typeof window === 'undefined') {
-  instanceConfig.headers = { Connection: 'keep-alive' };
-}
-
-const instance = axios.create(instanceConfig);
-instance.defaults.withCredentials = true;
+  headers: {
+    ...(typeof window === 'undefined' && { Connection: 'keep-alive' }),
+  },
+});
 let cancel;
 const pending: any = {};
 

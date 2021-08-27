@@ -17,9 +17,10 @@ const nextConfig = {
     disableServerWebpackPlugin: true,
     disableClientWebpackPlugin: true,
   },
+  excludeDefaultMomentLocales: true,
   env: {
     API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://localhost:5001/web',
-    STATIC_HOST: isProd ? `//cdn.leroy.net.cn/${name}/static/` : '/',
+    STATIC_HOST: isProd ? `//cdn.leroy.net.cn/${name}/static` : '/static',
   },
 
   // cdn in production and localhost for development

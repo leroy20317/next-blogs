@@ -6,6 +6,8 @@ module.exports = {
     REACT_APP_ENV: true,
   },
   rules: {
+    'react-hooks/exhaustive-deps': 0,
+    'no-param-reassign': 0,
     'no-nested-ternary': 0,
     'prefer-template': 0,
     '@typescript-eslint/dot-notation': 0,
