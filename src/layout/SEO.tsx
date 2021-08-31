@@ -1,0 +1,37 @@
+/**
+ * @author: leroy
+ * @date: 2021/8/28 14:37
+ * @description：seo
+ */
+import Head from 'next/head';
+import { NextPage } from 'next';
+
+const SEO: NextPage<{ title?: string; description?: string; keywords?: string }> = ({
+  title,
+  description,
+  keywords,
+}) => (
+  <>
+    <Head>
+      <title>{title}</title>
+      <meta name="keywords" content={keywords || 'Leroy,Blog'} />
+      <meta
+        name="description"
+        content={
+          description ||
+          'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...'
+        }
+      />
+      <meta
+        property="og:description"
+        content={
+          description ||
+          'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...'
+        }
+      />
+      <meta property="og:image" content="https://cdn.leroy.net.cn/images/icon.png" />
+      <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
+    </Head>
+  </>
+);
+export default SEO;

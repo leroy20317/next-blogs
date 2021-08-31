@@ -4,6 +4,7 @@ if (typeof window === 'undefined') {
 }
 
 const Url = {
+  staticHost: process.env.STATIC_HOST,
   domain,
   info: domain + '/info', // 页面相关信息
   article: domain + '/article', // 文章

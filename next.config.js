@@ -3,7 +3,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { name } = require('./package.json');
 // const { withSentryConfig } = require('@sentry/nextjs');
 
-const isProd = process.env.NODE_ENV === 'production';
+// const isProd = process.env.NODE_ENV === 'production';
+const isProd = false;
 
 /**
  * @type {import('next').NextConfig}
@@ -29,7 +30,9 @@ const nextConfig = {
   // 运行时配置(server client皆可获取)
   // publicRuntimeConfig: {
   // },
-
+  images: {
+    domains: ['cdn.leroy.net.cn', 'api.leroy.net.cn'],
+  },
   api: {
     bodyParser: true,
   },
