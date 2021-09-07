@@ -4,13 +4,16 @@
  * @description：seo
  */
 import Head from 'next/head';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
+import type { ReactNode } from 'react';
 
-const SEO: NextPage<{ title?: string; description?: string; keywords?: string }> = ({
-  title,
-  description,
-  keywords,
-}) => (
+const SEO: NextPage<{
+  title?: string;
+  description?: string;
+  keywords?: string;
+  className?: string;
+  children: ReactNode | ReactNode[];
+}> = ({ title, description, keywords, className, children }) => (
   <>
     <Head>
       <title>{title}</title>
@@ -32,6 +35,7 @@ const SEO: NextPage<{ title?: string; description?: string; keywords?: string }>
       <meta property="og:image" content="https://cdn.leroy.net.cn/images/icon.png" />
       <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
     </Head>
+    <main className={className}>{children}</main>
   </>
 );
 export default SEO;

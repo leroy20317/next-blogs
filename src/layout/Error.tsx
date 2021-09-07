@@ -44,8 +44,7 @@ const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <SEO title={statusCode && errTitle[statusCode]} />
+    <SEO title={statusCode && errTitle[statusCode]} className={styles.container}>
       <img src={`${Url.staticHost}/image/other/error.png`} />
       <div className={styles.content}>
         <ul>
@@ -69,7 +68,7 @@ const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
           </span>
         </div>
       </div>
-    </div>
+    </SEO>
   );
 };
 
