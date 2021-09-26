@@ -3,17 +3,21 @@
  * @date: 2021/8/23 16:09
  * @description：store
  */
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
+import loadingReducer from './slices/loadingSlice';
+import commonReducer from './slices/commonSlice';
 import counterReducer from './slices/counterSlice';
 import userReducer from './slices/userSlice';
-import loadingReducer from './slices/loadingSlice';
 
 const combinedReducer = combineReducers({
   loading: loadingReducer,
+  common: commonReducer,
   counter: counterReducer,
   user: userReducer,
 });

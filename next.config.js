@@ -3,8 +3,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { name } = require('./package.json');
 // const { withSentryConfig } = require('@sentry/nextjs');
 
-// const isProd = process.env.NODE_ENV === 'production';
-const isProd = false;
+const isProd = process.env.NODE_ENV === 'production';
+// const isProd = false;
 
 /**
  * @type {import('next').NextConfig}
@@ -20,7 +20,8 @@ const nextConfig = {
   },
   excludeDefaultMomentLocales: true,
   env: {
-    API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://localhost:5001/web',
+    // API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://localhost:5001/web',
+    API_HOST: 'http://api.leroy.net.cn/web',
     STATIC_HOST: isProd ? `//cdn.leroy.net.cn/${name}/static` : '/static',
   },
 

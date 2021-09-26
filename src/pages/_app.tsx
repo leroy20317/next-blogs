@@ -10,13 +10,13 @@ import type { AppProps } from 'next/app';
 import ErrorPage from '@/layout/Error';
 import LoadingPage from '@/layout/Loading';
 import wrapper from '@/store/store';
-import { save } from '@/store/slices/userSlice';
-import { clearPending } from '@/utils/api';
 
 import 'antd/dist/antd.css';
 import '@/styles/global.scss';
 import '@/styles/var.scss';
 import '@/styles/iconfont.scss';
+import { getInfo } from '@/store/slices/commonSlice';
+import { clearPending } from '@/utils/api';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -76,9 +76,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 //
 MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ Component, ctx }) => {
   let userAgent;
-  if (ctx.req) {
+  if (ctx?.req) {
     console.log('------服务端------');
-    await store.dispatch(save('2111'));
+    await store.dispatch(getInfo());
     userAgent = ctx.req.headers['user-agent'];
   } else {
     userAgent = navigator.userAgent;

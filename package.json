@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next  -p 5500 -H local.leroy.net.cn",
     "build": "next build",
+    "start-local": "next start -p 5500 -H local.leroy.net.cn",
     "start": "next start -p 5500",
     "publish": "next build && node kodo.js",
     "pm2": "pm2 delete next-blogs && pm2 start npm --no-pmx --name next-blogs -- start",
@@ -29,24 +30,27 @@
   "lint-staged": {
     "**/*.scss": "stylelint --syntax scss",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+    "**/*.{js,jsx,tsx,ts,scss,md,json}": [
       "prettier --write"
     ]
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.3",
     "@reduxjs/toolkit": "^1.6.1",
-    "antd": "^4.16.12",
-    "axios": "^0.21.1",
+    "antd": "^4.16.13",
+    "axios": "^0.21.4",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "next": "^11.1.0",
+    "next": "^11.1.2",
     "next-redux-wrapper": "^7.0.2",
+    "node-abort-controller": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
-    "sass": "^1.38.0"
+    "sass": "^1.38.0",
+    "umi-request": "^1.4.0",
+    "yet-another-abortcontroller-polyfill": "^0.0.4"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^11.1.0",

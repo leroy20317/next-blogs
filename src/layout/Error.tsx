@@ -48,7 +48,7 @@ const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
       <img src={`${Url.staticHost}/image/other/error.png`} />
       <div className={styles.content}>
         <ul>
-          <li>世界上有什么不会失去的东西吗？我相信有，你也最好相信。</li>
+          <li>世界上有什么不会失去的东西吗？我相信有，你最好也相信。</li>
           <li>世上有可以挽回的和不可挽回的事，而时间经过就是一种不可挽回的事。</li>
           <li>
             不必太纠结于当下，也不必太忧虑未来，当你经历过一些事情的时候，眼前的风景已经和从前不一样了。
