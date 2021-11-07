@@ -27,15 +27,19 @@
     opacity: 0;
   }
 
-  .cs-loader {
+  .pc-loader {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+
+    @media (max-width: 800px) {
+      display: none;
+    }
   }
 
-  .cs-loader-inner {
+  .pc-loader-inner {
     position: absolute;
     top: 50%;
     width: 100%;
@@ -78,6 +82,10 @@
     position: relative;
     width: 40px;
     height: 40px;
+
+    @media (min-width: 801px) {
+      display: none;
+    }
   }
 
   .double-bounce1,

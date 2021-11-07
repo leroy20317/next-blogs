@@ -3,24 +3,32 @@
  * @date: 2021/8/20 20:30
  * @description：_app
  */
-import { useEffect, useState } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
-import type { AppProps } from 'next/app';
-import ErrorPage from '@/layout/Error';
-import LoadingPage from '@/layout/Loading';
+import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import wrapper from '@/store/store';
 
 import 'antd/dist/antd.css';
 import '@/styles/global.scss';
 import '@/styles/var.scss';
 import '@/styles/iconfont.scss';
-import { getInfo } from '@/store/slices/commonSlice';
 import { clearPending } from '@/utils/api';
+import type { NextPage } from 'next';
+import Layout from '@/layout';
+import Loading from '@/layout/Loading';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [pageLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleStart = (url) => {
@@ -43,52 +51,52 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
   }, [router]);
 
-  if ([404, 500].includes(pageProps.statusCode)) {
-    return <ErrorPage statusCode={pageProps.statusCode} />;
-  }
+  // const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
+  // return getLayout(<Component {...pageProps} />)
 
   return (
-    <>
-      <Head>
-        <meta charSet="utf-8" />
-        <meta name="Author" content="Leroy" />
-        <meta name="baidu-site-verification" content="uGgzMZ4ZfV" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <meta httpEquiv="cleartype" content="on" />
-        <meta name="HandheldFriENDly" content="True" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, shrink-to-fit=no, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <meta content="yes" name="apple-mobile-web-app-capable" />
-        <meta content="yes" name="apple-touch-fullscreen" />
-      </Head>
-      <LoadingPage isMobile={pageProps.isMobile} loading={loading} />
-      <Component {...pageProps} />
-    </>
+    <Layout>
+      <Loading loading={pageLoading} />
+      <Component {...pageProps} pageLoading={pageLoading} />
+    </Layout>
   );
 }
 
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
-//
-MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ Component, ctx }) => {
-  let userAgent;
-  if (ctx?.req) {
-    console.log('------服务端------');
-    await store.dispatch(getInfo());
-    userAgent = ctx.req.headers['user-agent'];
-  } else {
-    userAgent = navigator.userAgent;
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  switch (metric.name) {
+    // handle FCP results
+    // TTFB + 内容加载时间 + 渲染时间
+    case 'FCP':
+      console.log('FCP 首次内容绘制', metric);
+      break;
+    // handle LCP results
+    case 'LCP':
+      console.log('LCP 最大的内容绘制', metric);
+      break;
+    // handle CLS results
+    case 'CLS':
+      console.log('CLS 累积布局偏移', metric);
+      break;
+    // handle FID results
+    case 'FID':
+      console.log('FID 首次输入延迟', metric);
+      break;
+    // handle TTFB results
+    case 'TTFB':
+      console.log('TTFB 首字节时间', metric);
+      break;
+    // handle route-change to render results
+    case 'Next.js-route-change-to-render':
+      console.log('路由改变后页面开始渲染的时间', metric);
+      break;
+    // handle render results
+    case 'Next.js-render':
+      console.log('路由更改后页面完成渲染的时间', metric);
+      break;
+    default:
+      console.log(metric);
+      break;
   }
-  return {
-    pageProps: {
-      ...(Component.getInitialProps ? await Component.getInitialProps({ ...ctx }) : {}),
-      isMobile: /Mobile/gi.test(userAgent),
-    },
-  };
-});
+}
 
 export default wrapper.withRedux(MyApp);

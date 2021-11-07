@@ -1,3 +1,6 @@
+// checkServer
+export const checkServer = () => typeof window === 'undefined';
+
 // 时间戳 转换
 export function analysis(time: string) {
   // '2020-05-30 19:46' 转 ['2020', '05', '30', '19', '46']

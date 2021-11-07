@@ -14,7 +14,6 @@ import locale from 'antd/lib/locale/zh_CN';
 import wrapper, { useAppSelector } from '@/store/store';
 import { useEffect } from 'react';
 import { incrementAsync } from '@/store/slices/userSlice';
-import SEO from '@/layout/SEO';
 
 const Page: NextPage = (props) => {
   const counter = useAppSelector((state) => state.counter);
@@ -24,17 +23,17 @@ const Page: NextPage = (props) => {
     console.log('counter, user', { counter, user }, props);
   }, []);
   return (
-    <SEO className={styles.box}>
+    <div className={styles.box}>
       Page
       <ConfigProvider locale={locale}>
         <DatePicker defaultValue={moment('2015-01-01', 'YYYY-MM-DD')} />
       </ConfigProvider>
-      <span className="iconfont icon-close"></span>
+      <span className="iconfont icon-close" />
       <Link href="/">
         <a>go to home</a>
       </Link>
       <p>{JSON.stringify({ counter, user })}</p>
-    </SEO>
+    </div>
   );
 };
 

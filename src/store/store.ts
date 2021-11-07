@@ -11,12 +11,14 @@ import { combineReducers } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
 import loadingReducer from './slices/loadingSlice';
+import seoReducer from './slices/seoSlice';
 import commonReducer from './slices/commonSlice';
 import counterReducer from './slices/counterSlice';
 import userReducer from './slices/userSlice';
 
 const combinedReducer = combineReducers({
   loading: loadingReducer,
+  seo: seoReducer,
   common: commonReducer,
   counter: counterReducer,
   user: userReducer,

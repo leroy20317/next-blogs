@@ -11,5 +11,6 @@ module.exports = {
     'no-nested-ternary': 0,
     'prefer-template': 0,
     '@typescript-eslint/dot-notation': 0,
+    '@typescript-eslint/consistent-type-imports': 2,
   },
 };

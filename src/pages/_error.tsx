@@ -3,20 +3,19 @@
  * @date: 2021/8/27 18:21
  * @description：_error
  */
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Url from '@/utils/url';
 import { useEffect, useState } from 'react';
 import useInterval from '@/hooks/useInterval';
 import { useRouter } from 'next/router';
 import styles from '@/styles/layout/error.module.scss';
-import SEO from '@/layout/SEO';
+import { saveTDK } from '@/store/slices/seoSlice';
 
 const errTitle = {
   404: '404 | Sorry, the page you visited does not exist.',
   500: '500 | Sorry, something went wrong.',
 };
-
-const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
+const ErrorPage: NextPage<{ statusCode?: number }> = () => {
   const router = useRouter();
   const [number, setNumber] = useState(10);
   const [interval, setInterval] = useState<number | null>(null);
@@ -44,8 +43,8 @@ const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
   }, []);
 
   return (
-    <SEO title={statusCode && errTitle[statusCode]} className={styles.container}>
-      <img src={`${Url.staticHost}/image/other/error.png`} />
+    <div className={styles.container}>
+      <img src={`${Url.staticHost}/image/other/error.png`} alt="" />
       <div className={styles.content}>
         <ul>
           <li>世界上有什么不会失去的东西吗？我相信有，你最好也相信。</li>
@@ -68,8 +67,14 @@ const ErrorPage: NextPage<{ statusCode?: number }> = ({ statusCode }) => {
           </span>
         </div>
       </div>
-    </SEO>
+    </div>
   );
+};
+
+ErrorPage.getInitialProps = async ({ res, err }) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  await saveTDK({ title: errTitle[statusCode || 404] });
+  return { statusCode };
 };
 
 export default ErrorPage;

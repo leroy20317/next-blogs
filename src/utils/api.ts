@@ -7,6 +7,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import qs from 'qs';
+import { checkServer } from '@/utils/util';
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -27,8 +28,10 @@ const codeMessage: Record<number, string> = {
   504: '网关超时。',
 };
 
+const isServer = checkServer();
+
 const request = extend({
-  baseURL: process.env.API_HOST,
+  prefix: isServer ? process?.env?.API_HOST?.replace('https', 'http') : process.env.API_HOST,
   timeout: 5000,
   headers: {
     ...(typeof window === 'undefined' && { Connection: 'keep-alive' }),

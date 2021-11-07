@@ -4,16 +4,12 @@
  * @description：Loading
  */
 import styles from '@/styles/layout/loading.module.scss';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { waitTime } from '@/utils/util';
 import classNames from 'classnames';
 
-const LoadingPage: NextPage<{ isMobile: boolean; loading: boolean; delay?: number }> = ({
-  isMobile,
-  loading,
-  delay,
-}) => {
+const LoadingPage: NextPage<{ loading: boolean; delay?: number }> = ({ loading, delay }) => {
   const [spinning, setSpinning] = useState(false);
   useEffect(() => {
     (async () => {
@@ -33,23 +29,20 @@ const LoadingPage: NextPage<{ isMobile: boolean; loading: boolean; delay?: numbe
         [styles.hidden]: !spinning,
       })}
     >
-      {isMobile ? (
-        <div className={styles['spinner']}>
-          <div className={styles['double-bounce1']}></div>
-          <div className={styles['double-bounce2']}></div>
+      <div className={styles['spinner']}>
+        <div className={styles['double-bounce1']} />
+        <div className={styles['double-bounce2']} />
+      </div>
+      <div className={styles['pc-loader']}>
+        <div className={styles['pc-loader-inner']}>
+          <span>●</span>
+          <span>●</span>
+          <span>●</span>
+          <span>●</span>
+          <span>●</span>
+          <span>●</span>
         </div>
-      ) : (
-        <div className={styles['cs-loader']}>
-          <div className={styles['cs-loader-inner']}>
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

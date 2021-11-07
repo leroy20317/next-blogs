@@ -1,5 +1,6 @@
 // @ts-check
 const TerserPlugin = require('terser-webpack-plugin');
+
 const { name } = require('./package.json');
 // const { withSentryConfig } = require('@sentry/nextjs');
 
@@ -26,7 +27,7 @@ const nextConfig = {
   },
 
   // cdn in production and localhost for development
-  assetPrefix: isProd ? `//cdn.leroy.net.cn/${name}` : '',
+  // assetPrefix: isProd ? `//cdn.leroy.net.cn/${name}` : '',
 
   // 运行时配置(server client皆可获取)
   // publicRuntimeConfig: {
@@ -48,10 +49,11 @@ const nextConfig = {
     // Note: we provide webpack above so you should not `require` it
     // Perform customizations to webpack config
     // Important: return the modified config
-    config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
     if (isProd) {
+      config.optimization.minimize = true;
       config.optimization.minimizer.push(
         new TerserPlugin({
+          // minify: TerserPlugin.swcMinify,
           terserOptions: {
             warnings: false,
             extractComments: false, // 移除注释

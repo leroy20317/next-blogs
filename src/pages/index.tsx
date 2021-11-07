@@ -15,7 +15,6 @@ import wrapper, { useAppDispatch, useAppSelector } from '@/store/store';
 import { useEffect } from 'react';
 import { incrementIfOdd } from '@/store/slices/userSlice';
 import { incrementAsync } from '@/store/slices/counterSlice';
-import SEO from '@/layout/SEO';
 
 const Home: NextPage = (props) => {
   const dispatch = useAppDispatch();
@@ -26,18 +25,18 @@ const Home: NextPage = (props) => {
     console.log('counter, user', { counter, user }, props);
   }, []);
   return (
-    <SEO className={styles.box}>
+    <div className={styles.box}>
       首页
       <ConfigProvider locale={locale}>
         <DatePicker defaultValue={moment('2015-01-01', 'YYYY-MM-DD')} />
       </ConfigProvider>
-      <span className="iconfont icon-close"></span>
+      <span className="iconfont icon-close" />
       <Link href="/page">
         <a>go to page</a>
       </Link>
       <button onClick={() => dispatch(incrementIfOdd(22))}>+++</button>
       <button onClick={() => dispatch(incrementAsync(211))}>incrementAsync</button>
-    </SEO>
+    </div>
   );
 };
 
