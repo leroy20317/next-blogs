@@ -30,6 +30,8 @@ const codeMessage: Record<number, string> = {
 
 const isServer = checkServer();
 
+const key = 'error';
+
 const request = extend({
   prefix: isServer ? process?.env?.API_HOST?.replace('https', 'http') : process.env.API_HOST,
   timeout: 5000,
@@ -43,10 +45,12 @@ const request = extend({
       const { status, url } = response;
       if (status === 401 || status === 403) {
         notification.error({
+          key,
           message: '未登录或登录已过期，请重新登录。',
         });
       }
       notification.error({
+        key,
         message: `请求错误 ${status}: ${url}`,
         description: errorText,
       });
@@ -54,6 +58,7 @@ const request = extend({
 
     if (!response && typeof window !== 'undefined') {
       notification.error({
+        key,
         description: '您的网络发生异常，无法连接服务器',
         message: '网络异常',
       });
@@ -75,17 +80,20 @@ const createPadding = (token: string) => {
 };
 
 const deletePending = (token: string) => {
-  const controller = pending.get(token);
-  controller?.abort?.();
+  try {
+    pending.get(token)?.abort?.();
+  } catch (e) {}
   pending.delete(token);
 };
 
 // 清空 pending 中的请求（在路由跳转时调用）
 export const clearPending = () => {
   if (typeof window === 'undefined') return;
-  pending.forEach((controller) => {
-    controller?.abort?.();
-  });
+  try {
+    pending.forEach((controller) => {
+      controller?.abort?.();
+    });
+  } catch (e) {}
   pending.clear();
 };
 

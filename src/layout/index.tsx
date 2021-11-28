@@ -26,8 +26,8 @@ const Layout = ({ children }) => (
       <meta content="yes" name="apple-touch-fullscreen" />
       <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
     </Head>
-    <SEO />
     <Header />
+    <SEO />
     <main>{children}</main>
     <Footer />
   </>

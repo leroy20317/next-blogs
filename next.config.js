@@ -1,5 +1,4 @@
 // @ts-check
-const TerserPlugin = require('terser-webpack-plugin');
 
 const { name } = require('./package.json');
 // const { withSentryConfig } = require('@sentry/nextjs');
@@ -45,27 +44,9 @@ const nextConfig = {
       : `$static: '/static';`,
     // prependData:  isProd ? `@import "@/styles/config/prod.scss";` : `@import "@/styles/config/dev.scss";`,
   },
-  webpack: (config, { webpack }) => {
-    // Note: we provide webpack above so you should not `require` it
-    // Perform customizations to webpack config
-    // Important: return the modified config
-    if (isProd) {
-      config.optimization.minimize = true;
-      config.optimization.minimizer.push(
-        new TerserPlugin({
-          // minify: TerserPlugin.swcMinify,
-          terserOptions: {
-            warnings: false,
-            extractComments: false, // 移除注释
-            compress: {
-              drop_console: true,
-              drop_debugger: true,
-            },
-          },
-        }),
-      );
-    }
-    return config;
+  swcMinify: true,
+  experimental: {
+    removeConsole: true,
   },
 };
 

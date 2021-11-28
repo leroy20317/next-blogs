@@ -5,10 +5,12 @@
  */
 import Head from 'next/head';
 import type { NextPage } from 'next';
-import { useAppSelector } from '@/store/store';
+import { useStore } from '@/store/store';
 
 const SEO: NextPage = () => {
-  const { title, description, keywords } = useAppSelector((state) => state.seo);
+  const {
+    seo: { title = '', description = '', keywords = '' },
+  } = useStore();
   return (
     <Head>
       <title>{title}</title>

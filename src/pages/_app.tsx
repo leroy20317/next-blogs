@@ -7,7 +7,6 @@ import type { ReactElement, ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps, NextWebVitalsMetric } from 'next/app';
-import wrapper from '@/store/store';
 
 import 'antd/dist/antd.css';
 import '@/styles/global.scss';
@@ -18,15 +17,37 @@ import type { NextPage } from 'next';
 import Layout from '@/layout';
 import Loading from '@/layout/Loading';
 
-type NextPageWithLayout = NextPage & {
+import { ConfigProvider } from 'antd';
+import { checkServer } from '@/utils/util';
+import { initializeStore, StoreContext } from '@/store/store';
+
+if (!checkServer()) {
+  // 定制 antd 主题
+  ConfigProvider.config({
+    theme: {
+      infoColor: '#24292e',
+      primaryColor: '#0084ff',
+      errorColor: '#ff3600',
+    },
+  });
+}
+
+// 注入store
+function StoreProvider({ children, initialState }) {
+  const store = initializeStore(initialState);
+
+  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
+}
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
+  err: any;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
   const router = useRouter();
   const [pageLoading, setLoading] = useState(false);
 
@@ -51,14 +72,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     };
   }, [router]);
 
-  // const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
-  // return getLayout(<Component {...pageProps} />)
+  const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
 
   return (
-    <Layout>
-      <Loading loading={pageLoading} />
-      <Component {...pageProps} pageLoading={pageLoading} />
-    </Layout>
+    <StoreProvider {...pageProps}>
+      {getLayout(
+        <>
+          <Loading loading={pageLoading} />
+          <ConfigProvider>
+            <Component {...pageProps} {...other} pageLoading={pageLoading} />
+          </ConfigProvider>
+        </>,
+      )}
+    </StoreProvider>
   );
 }
 
@@ -99,4 +125,4 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   }
 }
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;
