@@ -26,6 +26,6 @@
     "noImplicitAny": false,
     "incremental": true
   },
-  "exclude": ["dist", ".next", "out", "next.config.js", "node_modules", "public"],
+  "exclude": ["build", ".next", "out", "next.config.js", "node_modules", "public"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types/**/*.d.ts"]
 }

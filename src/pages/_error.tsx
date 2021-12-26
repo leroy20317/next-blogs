@@ -8,14 +8,14 @@ import Url from '@/utils/url';
 import { useEffect, useState } from 'react';
 import useInterval from '@/hooks/useInterval';
 import { useRouter } from 'next/router';
-import styles from '@/styles/layout/error.module.scss';
-import type { IState } from '@/store/store';
+import styles from '@/styles/pages/error.module.scss';
+import { saveTDK } from '@/store/slices/seo';
 
 const errTitle = {
   404: '404 | Sorry, the page you visited does not exist.',
   500: '500 | Sorry, something went wrong.',
 };
-const ErrorPage: NextPage<{ statusCode?: number; initialState: IState }> = () => {
+const ErrorPage: NextPage<{ statusCode?: number }> = () => {
   const router = useRouter();
   const [number, setNumber] = useState(10);
   const [interval, setInterval] = useState<number | null>(null);
@@ -73,7 +73,8 @@ const ErrorPage: NextPage<{ statusCode?: number; initialState: IState }> = () =>
 
 ErrorPage.getInitialProps = async ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  return { statusCode, initialState: { seo: { title: errTitle[statusCode || 404] } } };
+  await saveTDK({ title: errTitle[statusCode || 404] });
+  return { statusCode };
 };
 
 export default ErrorPage;

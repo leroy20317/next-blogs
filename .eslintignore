@@ -1,6 +1,7 @@
 /lambda/
 /scripts
 /config
+node_modules/**/*
 .history
 .eslintrc.js
 tsconfig.json
@@ -14,3 +15,8 @@ server.js
 sentry.client.config.js
 sentry.server.config.js
 kodo.js
+build
+
+/.prettierrc.js
+/.prettierignore
+/.gitignore

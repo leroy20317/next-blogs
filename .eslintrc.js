@@ -12,5 +12,7 @@ module.exports = {
     'prefer-template': 0,
     '@typescript-eslint/dot-notation': 0,
     '@typescript-eslint/consistent-type-imports': 2,
+    '@typescript-eslint/no-invalid-this':0,
+    'no-underscore-dangle': 0
   },
 };

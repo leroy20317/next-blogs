@@ -7,6 +7,7 @@ import type { ReactElement, ReactNode } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import type { AppProps, NextWebVitalsMetric } from 'next/app';
+import { wrapper } from '@/store/store';
 
 import 'antd/dist/antd.css';
 import '@/styles/global.scss';
@@ -15,11 +16,16 @@ import '@/styles/iconfont.scss';
 import { clearPending } from '@/utils/api';
 import type { NextPage } from 'next';
 import Layout from '@/layout';
-import Loading from '@/layout/Loading';
+import Loading from '@/components/Loading';
 
 import { ConfigProvider } from 'antd';
 import { checkServer } from '@/utils/util';
-import { initializeStore, StoreContext } from '@/store/store';
+import { getInfo } from '@/store/slices/common';
+import App from 'next/app';
+import { Provider } from 'react-redux';
+import dynamic from 'next/dynamic';
+
+const CreatePortal = dynamic(() => import('@/components/CreatePortal'), { ssr: false });
 
 if (!checkServer()) {
   // 定制 antd 主题
@@ -32,12 +38,6 @@ if (!checkServer()) {
   });
 }
 
-// 注入store
-function StoreProvider({ children, initialState }) {
-  const store = initializeStore(initialState);
-
-  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
-}
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -48,9 +48,10 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
+  const { store, props } = wrapper.useWrappedStore({ pageProps, ...other });
+
   const router = useRouter();
   const [pageLoading, setLoading] = useState(false);
-
   useEffect(() => {
     const handleStart = (url) => {
       console.log(`Loading: ${url}`);
@@ -73,22 +74,39 @@ function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
   }, [router]);
 
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
-
   return (
-    <StoreProvider {...pageProps}>
-      {getLayout(
-        <>
-          <Loading loading={pageLoading} />
-          <ConfigProvider>
-            <Component {...pageProps} {...other} pageLoading={pageLoading} />
-          </ConfigProvider>
-        </>,
-      )}
-    </StoreProvider>
+    <Provider store={store}>
+      <ConfigProvider>
+        {getLayout(
+          <>
+            <CreatePortal>
+              <Loading loading={pageLoading} />
+            </CreatePortal>
+            <Component {...props.pageProps} {...other} pageLoading={pageLoading} />
+          </>,
+        )}
+      </ConfigProvider>
+    </Provider>
   );
 }
 
+MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async (appContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  const {
+    ctx: { req },
+  } = appContext;
+  if (req) {
+    try {
+      await store.dispatch(getInfo());
+    } catch (e) {
+      console.log('e', e);
+    }
+  }
+  return { ...appProps };
+});
+
 export function reportWebVitals(metric: NextWebVitalsMetric) {
+  return;
   switch (metric.name) {
     // handle FCP results
     // TTFB + 内容加载时间 + 渲染时间

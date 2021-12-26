@@ -4,13 +4,11 @@
  * @description：seo
  */
 import Head from 'next/head';
-import type { NextPage } from 'next';
-import { useStore } from '@/store/store';
+import { useAppSelector } from '@/store/store';
+import type { FC } from 'react';
 
-const SEO: NextPage = () => {
-  const {
-    seo: { title = '', description = '', keywords = '' },
-  } = useStore();
+const SEO: FC = () => {
+  const { title, description, keywords } = useAppSelector((state) => state.seo);
   return (
     <Head>
       <title>{title}</title>

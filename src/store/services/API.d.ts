@@ -5,10 +5,12 @@
  */
 
 declare namespace API {
-  type Response<T> = {
+  type Response<T = undefined> = {
     status: string;
     body: T;
   };
+
+  type LoadingStatus = 'more' | 'loading' | 'nomore' | undefined;
 
   type Info = {
     bg_music: {
@@ -44,4 +46,36 @@ declare namespace API {
     };
     __v: number;
   };
+
+  namespace Article {
+    type Detail = {
+      like: number;
+      read: number;
+      hide: boolean;
+      music: {
+        url: string;
+        name: string;
+      };
+      image: {
+        url: string;
+        name: string;
+      };
+      _id: string;
+      title: string;
+      content: string;
+      contentHtml: string;
+      words: number;
+      time: string;
+      describe: string;
+      __v: number;
+    };
+
+    type List = {
+      total: number;
+      data: Detail[];
+      page: number;
+      size: number;
+      totalPage: number;
+    };
+  }
 }

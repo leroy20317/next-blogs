@@ -32,6 +32,7 @@ const nextConfig = {
   // publicRuntimeConfig: {
   // },
   images: {
+    minimumCacheTTL: 24 * 3600,
     domains: ['cdn.leroy.net.cn', 'api.leroy.net.cn'],
   },
   api: {
@@ -46,7 +47,7 @@ const nextConfig = {
   },
   swcMinify: true,
   experimental: {
-    removeConsole: true,
+    removeConsole: isProd,
   },
 };
 

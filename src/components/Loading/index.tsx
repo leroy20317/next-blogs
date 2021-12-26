@@ -3,7 +3,7 @@
  * @date: 2021/8/28 15:03
  * @description：Loading
  */
-import styles from '@/styles/layout/loading.module.scss';
+import styles from './index.module.scss';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { waitTime } from '@/utils/util';

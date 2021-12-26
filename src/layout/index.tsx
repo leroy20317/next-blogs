@@ -5,11 +5,12 @@
  */
 
 import Head from 'next/head';
-import Header from './Header';
+import Header from '@/components/Header';
 import SEO from './SEO';
 import Footer from './Footer';
+import type { FC, ReactNode } from 'react';
 
-const Layout = ({ children }) => (
+const Layout: FC<{ children: ReactNode; isHome?: boolean }> = ({ children, isHome }) => (
   <>
     <Head>
       <meta charSet="utf-8" />
@@ -26,7 +27,7 @@ const Layout = ({ children }) => (
       <meta content="yes" name="apple-touch-fullscreen" />
       <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
     </Head>
-    <Header />
+    {!isHome && <Header />}
     <SEO />
     <main>{children}</main>
     <Footer />

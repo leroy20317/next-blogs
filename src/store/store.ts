@@ -3,58 +3,58 @@
  * @date: 2021/8/23 16:09
  * @description：store
  */
-import { createContext, useContext } from 'react';
+import type { ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { combineReducers } from 'redux';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
-import { enableStaticRendering } from 'mobx-react';
-import type { CommonState } from './mobx/common';
-import { CommonStore } from './mobx/common';
-import type { SeoState } from './mobx/seo';
-import { SeoStore } from './mobx/seo';
+import loadingReducer from './slices/loading';
+import seoReducer from './slices/seo';
+import headerReducer from './slices/header';
+import homeReducer from './slices/home';
+import commonReducer from './slices/common';
 
-class RootStore {
-  common: CommonStore;
-  seo: SeoStore;
-
-  constructor() {
-    this.common = new CommonStore();
-    this.seo = new SeoStore();
+const combinedReducer = combineReducers({
+  loading: loadingReducer,
+  seo: seoReducer,
+  header: headerReducer,
+  home: homeReducer,
+  common: commonReducer,
+});
+const reducer = (state, action) => {
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state, // use previous state
+      ...action.payload, // apply delta from hydration
+    };
+    return combinedReducer(nextState, action);
   }
-}
+  return combinedReducer(state, action);
+};
 
-export type Store = InstanceType<typeof RootStore>;
-export type IState = Partial<{
-  common: CommonState;
-  seo: SeoState;
-}>;
+const makeStore = () =>
+  configureStore({
+    reducer,
+    devTools: process.env.NODE_ENV === 'development',
+  });
 
-let store: Store;
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore['getState']>;
 
-enableStaticRendering(typeof window === 'undefined');
+export type AppDispatch = AppStore['dispatch'];
 
-export const StoreContext = createContext<Store>({} as RootStore);
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppState,
+  unknown,
+  Action<string>
+>;
 
-export function useStore() {
-  const context = useContext(StoreContext);
-  if (context === undefined) {
-    throw new Error('useStore must be used within StoreProvider');
-  }
-  return context;
-}
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-export function initializeStore(initialData: Store | null = null) {
-  const _store = store ?? new RootStore();
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
 
-  // If your page has Next.js data fetching methods that use a Mobx store, it will
-  // get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
-  if (initialData) {
-    Object.entries(initialData).forEach(([key, val]) => {
-      _store[key].hydrate(val);
-    });
-  }
-  // For SSG and SSR always create a new store
-  if (typeof window === 'undefined') return _store;
-  // Create the store once in the client
-  if (!store) store = _store;
-
-  return _store;
-}
+export const wrapper = createWrapper<AppStore>(makeStore);

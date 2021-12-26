@@ -82,7 +82,9 @@ const createPadding = (token: string) => {
 const deletePending = (token: string) => {
   try {
     pending.get(token)?.abort?.();
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
   pending.delete(token);
 };
 
@@ -93,7 +95,9 @@ export const clearPending = () => {
     pending.forEach((controller) => {
       controller?.abort?.();
     });
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
   pending.clear();
 };
 
@@ -121,8 +125,8 @@ request.interceptors.request.use((url, options) => {
 });
 
 // 响应拦截器即异常处理
-request.interceptors.response.use((response, options) => {
-  if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined') {
+  request.interceptors.response.use((response, options) => {
     const token = [
       options.method,
       options.url,
@@ -130,8 +134,7 @@ request.interceptors.response.use((response, options) => {
       qs.stringify(options.data),
     ].join('&');
     deletePending(token);
-  }
-  return response;
-});
-
+    return response;
+  });
+}
 export default request;
