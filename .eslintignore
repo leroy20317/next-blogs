@@ -16,7 +16,5 @@ sentry.client.config.js
 sentry.server.config.js
 kodo.js
 build
-
-/.prettierrc.js
-/.prettierignore
-/.gitignore
+.prettierignore
+.gitignore

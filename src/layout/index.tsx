@@ -27,9 +27,11 @@ const Layout: FC<{ children: ReactNode; isHome?: boolean }> = ({ children, isHom
       <meta content="yes" name="apple-touch-fullscreen" />
       <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
     </Head>
-    {!isHome && <Header />}
-    <SEO />
-    <main>{children}</main>
+    <main>
+      {!isHome && <Header />}
+      {children}
+      <SEO />
+    </main>
     <Footer />
   </>
 );

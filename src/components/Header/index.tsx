@@ -15,6 +15,8 @@ import { message } from 'antd';
 import useInterval from '@/hooks/useInterval';
 import { articleLike } from '@/store/services/common';
 
+let timer: NodeJS.Timer | null = null;
+
 const Header = () => {
   const { info, header } = useAppSelector((state) => ({
     info: state.common.info,
@@ -30,7 +32,6 @@ const Header = () => {
   const dashOffset = useMemo(() => (1 - progress) * dashArray, [dashArray, progress]);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  let timer: NodeJS.Timer | null = null;
   const { scroll_current, scroll_direction } = useScroll();
   const toPage = (path: string) => {
     router.push(path);

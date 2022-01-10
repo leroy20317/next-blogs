@@ -23,11 +23,13 @@ export const seoSlice = createSlice({
   name: 'seo',
   initialState,
   reducers: {
-    save: (state, action: PayloadAction<SEOState>) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
+    save: (state, action: PayloadAction<Partial<SEOState>>) => {
+      Object.entries(action.payload).forEach(([key, value]) => {
+        if (value) {
+          if (key === 'title') state.title = `${value} | ${state.title}`;
+          else state[key] = value;
+        }
+      });
     },
   },
 });

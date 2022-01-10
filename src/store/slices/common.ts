@@ -28,18 +28,22 @@ export const commonSlice = createSlice({
 
 export const { saveInfo } = commonSlice.actions;
 
-export const getInfo = createAsyncThunk('common/info', async (_, { dispatch }) => {
-  try {
-    const { body, status } = await fetchInfo();
-    if (status === 'success') {
-      dispatch(saveInfo(body));
-      return body;
+export const getInfo = createAsyncThunk<API.Info | undefined>(
+  'common/info',
+  async (_, { dispatch }) => {
+    try {
+      const { body, status } = await fetchInfo();
+      if (status === 'success') {
+        dispatch(saveInfo(body));
+        return body;
+      }
+      return undefined;
+    } catch (e) {
+      console.log('common/info', e);
+      // return e;
+      return undefined;
     }
-    return undefined;
-  } catch (e) {
-    console.log('common/info', e);
-    return e;
-  }
-});
+  },
+);
 
 export default commonSlice.reducer;

@@ -34,6 +34,7 @@ label {
 
 html,
 body {
+  height: auto;
   background: var(--color-bg-primary);
   scroll-behavior: smooth;
 }
@@ -80,6 +81,9 @@ button {
 }
 
 #__next {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-height: 100vh;
 }
 

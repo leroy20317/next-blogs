@@ -14,6 +14,7 @@ import loadingReducer from './slices/loading';
 import seoReducer from './slices/seo';
 import headerReducer from './slices/header';
 import homeReducer from './slices/home';
+import articleReducer from './slices/article';
 import commonReducer from './slices/common';
 
 const combinedReducer = combineReducers({
@@ -21,6 +22,7 @@ const combinedReducer = combineReducers({
   seo: seoReducer,
   header: headerReducer,
   home: homeReducer,
+  article: articleReducer,
   common: commonReducer,
 });
 const reducer = (state, action) => {

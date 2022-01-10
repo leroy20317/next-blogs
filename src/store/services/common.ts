@@ -13,9 +13,17 @@ export async function fetchInfo() {
   });
 }
 
-// 文章列表
+// 首页文章列表
 export async function fetchArticles(params: { page: number }) {
   return api<API.Response<API.Article.List>>(Url.article, {
+    method: 'GET',
+    params,
+  });
+}
+
+// 文章列表页
+export async function fetchMoods(params: { page: number; mood: 1 }) {
+  return api<API.Response<API.Article.Mood>>(Url.article, {
     method: 'GET',
     params,
   });

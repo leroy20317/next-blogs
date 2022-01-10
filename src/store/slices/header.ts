@@ -26,12 +26,14 @@ export const headerSlice = createSlice({
   name: 'header',
   initialState,
   reducers: {
-    save: (state, action: PayloadAction<HeaderState>) => {
+    save: (state, action: PayloadAction<Partial<HeaderState>>) => {
       Object.entries(action.payload).forEach(([key, value]) => {
         state[key] = value;
       });
     },
   },
 });
+
+export const saveHeaderData = headerSlice.actions.save;
 
 export default headerSlice.reducer;

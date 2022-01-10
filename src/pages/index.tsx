@@ -270,16 +270,16 @@ const Home: NextPage & {
 };
 
 Home.getLayout = (page) => <Layout isHome>{page}</Layout>;
-Home.getInitialProps = async ({ store, req }) => {
+Home.getInitialProps = async ({ store, req, query }) => {
   const { list } = (store.getState() as AppState).home;
   if (!list) {
     if (req) {
       await store.dispatch(getArticles());
-      return {};
+    } else {
+      store.dispatch(getArticles());
     }
-    store.dispatch(getArticles());
   }
-  return {};
+  return { query };
 };
 
 export default Home;

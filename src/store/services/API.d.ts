@@ -77,5 +77,13 @@ declare namespace API {
       size: number;
       totalPage: number;
     };
+
+    type Mood = {
+      total: number;
+      data: Record<string, Record<string, Detail[]>>;
+      page: number;
+      size: number;
+      totalPage: number;
+    };
   }
 }
