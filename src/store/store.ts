@@ -15,6 +15,7 @@ import seoReducer from './slices/seo';
 import headerReducer from './slices/header';
 import homeReducer from './slices/home';
 import articleReducer from './slices/article';
+import envelopeReducer from './slices/envelope';
 import commonReducer from './slices/common';
 
 const combinedReducer = combineReducers({
@@ -23,6 +24,7 @@ const combinedReducer = combineReducers({
   header: headerReducer,
   home: homeReducer,
   article: articleReducer,
+  envelope: envelopeReducer,
   common: commonReducer,
 });
 const reducer = (state, action) => {

@@ -7,7 +7,6 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import qs from 'qs';
-import { checkServer } from '@/utils/util';
 
 const codeMessage: Record<number, string> = {
   200: '服务器成功返回请求的数据。',
@@ -28,12 +27,13 @@ const codeMessage: Record<number, string> = {
   504: '网关超时。',
 };
 
-const isServer = checkServer();
-
 const key = 'error';
 
 const request = extend({
-  prefix: isServer ? process?.env?.API_HOST?.replace('https', 'http') : process.env.API_HOST,
+  prefix:
+    typeof window === 'undefined'
+      ? process?.env?.API_HOST?.replace('https', 'http')
+      : process.env.API_HOST,
   timeout: 5000,
   headers: {
     ...(typeof window === 'undefined' && { Connection: 'keep-alive' }),
@@ -76,12 +76,12 @@ const createPadding = (token: string) => {
   // signal.addEventListener('abort', () => {
   //   console.log('aborted!');
   // });
-  pending.set(token, { signal, abort });
+  pending.set(token, { signal, abort, isServer: typeof window === 'undefined' });
 };
 
 const deletePending = (token: string) => {
   try {
-    pending.get(token)?.abort?.();
+    if (!pending.get(token)?.isServer) pending.get(token)?.abort?.();
   } catch (e) {
     console.log(e);
   }
@@ -93,7 +93,8 @@ export const clearPending = () => {
   if (typeof window === 'undefined') return;
   try {
     pending.forEach((controller) => {
-      controller?.abort?.();
+      console.log('controller.isServer', controller.isServer, pending);
+      if (!controller.isServer) controller?.abort?.();
     });
   } catch (e) {
     console.log(e);

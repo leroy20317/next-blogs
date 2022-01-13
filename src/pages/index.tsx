@@ -209,7 +209,9 @@ const Home: NextPage & {
         </div>
         <div className={styles.misk} style={{ backgroundColor: info?.cover.color }} />
         <div className={styles.post}>
-          <div className={styles.time}>{moment(info?.cover?.date).format('MMMM DD, YYYY')}</div>
+          <div className={styles.time}>
+            {moment(info?.cover?.date).locale('zh-cn').format('MMMM DD, YYYY')}
+          </div>
           <Link href={info?.cover.link || ''}>
             <a className={styles.title} title={info?.cover.title}>
               {info?.cover.title}
@@ -230,7 +232,9 @@ const Home: NextPage & {
                 </a>
               </Link>
               <div className={styles.info}>
-                <div className={styles.time}>{moment(item.time).format('MMMM DD, YYYY')}</div>
+                <div className={styles.time}>
+                  {moment(item.time).locale('zh-cn').format('MMMM DD, YYYY')}
+                </div>
                 <Link href={`/${item._id}`}>
                   <a className={styles.title}>{item.title}</a>
                 </Link>
@@ -269,7 +273,7 @@ const Home: NextPage & {
   );
 };
 
-Home.getLayout = (page) => <Layout isHome>{page}</Layout>;
+Home.getLayout = (page) => <Layout hideHeader>{page}</Layout>;
 Home.getInitialProps = async ({ store, req, query }) => {
   const { list } = (store.getState() as AppState).home;
   if (!list) {

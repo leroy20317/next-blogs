@@ -25,10 +25,7 @@ export const seoSlice = createSlice({
   reducers: {
     save: (state, action: PayloadAction<Partial<SEOState>>) => {
       Object.entries(action.payload).forEach(([key, value]) => {
-        if (value) {
-          if (key === 'title') state.title = `${value} | ${state.title}`;
-          else state[key] = value;
-        }
+        if (value) state[key] = value;
       });
     },
   },

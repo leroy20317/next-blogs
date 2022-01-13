@@ -1,0 +1,58 @@
+/**
+* @author: leroy
+* @date: 2022-01-13 11:51
+* @description：envelope
+*/
+
+.data-null {
+  color: #313131;
+  font-size: 16px;
+  letter-spacing: 4px;
+  text-align: center;
+}
+.container {
+  background: #eef5ff;
+}
+.content {
+  width: 700px;
+  margin: auto;
+  padding: 90px 0 50px;
+  .item {
+    margin-bottom: 30px;
+    padding: 30px 30px 20px;
+    background: var(--color-bg-primary);
+    border-radius: 6px;
+    transition: all 0.3s;
+    &:hover {
+      box-shadow: 0 1px 8px rgba(0, 132, 255, 0.3);
+    }
+    .text {
+      color: #333;
+      :global(.hljs-right) {
+        text-align: right;
+      }
+    }
+    .time {
+      margin-top: 14px;
+      color: var(--color-text-3);
+      font-size: 13px;
+      text-align: right;
+    }
+  }
+}
+@media screen and (max-width: 700px) {
+  .content {
+    width: 100%;
+    padding: 80px 20px 20px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .content {
+    width: 100%;
+    padding: 70px 20px 10px;
+    .item {
+      margin-bottom: 18px;
+      padding: 20px;
+    }
+  }
+}

@@ -40,7 +40,7 @@ const Article: NextPage = () => {
                       {moods.map((article) => (
                         <li key={article._id}>
                           <div className={styles['item-l']}>
-                            <Link href={article._id}>
+                            <Link href={`/${article._id}`}>
                               <div className={styles.img}>
                                 <img
                                   src={
@@ -51,7 +51,7 @@ const Article: NextPage = () => {
                               </div>
                             </Link>
                             <div className={styles.tit}>
-                              <Link href={article._id}>
+                              <Link href={`/${article._id}`}>
                                 <a>{article.title}</a>
                               </Link>
                               <span>
@@ -91,9 +91,13 @@ const Article: NextPage = () => {
 Article.getInitialProps = async ({ store, req }) => {
   const {
     article: { list },
+    common: { info },
   } = store.getState() as AppState;
-  await store.dispatch(saveHeaderData({ title: '加油啦' }));
-  await store.dispatch(saveTDK({ title: 'Article' }));
+
+  await store.dispatch(
+    saveHeaderData({ title: '加油啦', music: info?.bg_music.mood, autoPlayMusic: true }),
+  );
+  await store.dispatch(saveTDK({ title: `Article | ${info?.web.name}` }));
   if (!list) {
     if (req) {
       await store.dispatch(getArticles());
@@ -101,6 +105,6 @@ Article.getInitialProps = async ({ store, req }) => {
       store.dispatch(getArticles());
     }
   }
-  return { title: 'Article' };
+  return { title: `Article | ${info?.web.name}` };
 };
 export default Article;

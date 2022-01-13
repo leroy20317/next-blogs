@@ -86,4 +86,28 @@ declare namespace API {
       totalPage: number;
     };
   }
+
+  namespace Envelope {
+    type Detail = {
+      _id: string;
+      content: string;
+      contentHtml: string;
+      time: string;
+      __v: number;
+    };
+
+    type List = {
+      total: number;
+      data: Detail[];
+      page: number;
+      size: number;
+      totalPage: number;
+    };
+  }
+  type About = {
+    _id: string;
+    content: string;
+    contentHtml: string;
+    __v: number;
+  };
 }

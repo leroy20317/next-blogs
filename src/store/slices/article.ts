@@ -10,12 +10,12 @@ import { fetchMoods } from '../services/common';
 import type { AppState } from '@/store/store';
 import { waitTime } from '@/utils/util';
 
-export interface HomeState {
+export interface ArticleState {
   list: API.Article.Mood | undefined;
   status: API.LoadingStatus;
 }
 
-const initialState: HomeState = {
+const initialState: ArticleState = {
   list: undefined,
   status: undefined,
 };
@@ -24,10 +24,10 @@ export const articleSlice = createSlice({
   name: 'article',
   initialState,
   reducers: {
-    saveList: (state, action: PayloadAction<HomeState['list']>) => {
+    saveList: (state, action: PayloadAction<ArticleState['list']>) => {
       state.list = action.payload;
     },
-    saveStatus: (state, action: PayloadAction<HomeState['status']>) => {
+    saveStatus: (state, action: PayloadAction<ArticleState['status']>) => {
       state.status = action.payload;
     },
   },
@@ -67,7 +67,6 @@ export const getArticles = createAsyncThunk<API.Article.Mood | undefined>(
           result = body;
         }
 
-        console.log('result', result);
         dispatch(saveList(result));
         dispatch(saveStatus(result?.total === result?.totalPage ? 'nomore' : 'more'));
         return result;

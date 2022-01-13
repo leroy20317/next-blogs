@@ -1,0 +1,72 @@
+/**
+ * @author: leroy
+ * @date: 2022-01-13 11:36
+ * @description：envelope
+ */
+import type { AppState } from '@/store/store';
+import { useAppSelector } from '@/store/store';
+import { saveHeaderData } from '@/store/slices/header';
+import { saveTDK } from '@/store/slices/seo';
+import { getEnvelopes } from '@/store/slices/envelope';
+import styles from '@/styles/pages/envelope.module.scss';
+import moment from 'moment';
+import LoadMore from '@/components/LoadMore';
+import { useEffect } from 'react';
+import type { NextPage } from 'next';
+
+const Envelope: NextPage = () => {
+  const { list, status } = useAppSelector((state) => state.envelope);
+  useEffect(() => {
+    document.body.classList.add(styles.container);
+    return () => {
+      document.body.classList.remove(styles.container);
+    };
+  }, []);
+  return (
+    <section className={styles.content}>
+      {list?.data.length ? (
+        <>
+          {list?.data.map((envelope) => (
+            <div className={styles.item} key={envelope._id}>
+              <div
+                className={styles.text}
+                dangerouslySetInnerHTML={{ __html: envelope.contentHtml }}
+              />
+              <div className={styles.time}>
+                {moment(envelope.time).locale('en').format('MMM Do, YYYY')}
+              </div>
+            </div>
+          ))}
+          <LoadMore status={status} />
+        </>
+      ) : (
+        <div className={styles['data-null']}>空无一物，就像你我一样。</div>
+      )}
+    </section>
+  );
+};
+
+Envelope.getInitialProps = async ({ store, req }) => {
+  const {
+    article: { list },
+    common: { info },
+  } = store.getState() as AppState;
+
+  await store.dispatch(
+    saveHeaderData({
+      title: '予给你一封信',
+      music: info?.bg_music.letter,
+      autoPlayMusic: true,
+    }),
+  );
+  await store.dispatch(saveTDK({ title: `一封信 | ${info?.web.name}` }));
+  if (!list) {
+    if (req) {
+      await store.dispatch(getEnvelopes());
+    } else {
+      store.dispatch(getEnvelopes());
+    }
+  }
+  return { title: `一封信 | ${info?.web.name}` };
+};
+export default Envelope;

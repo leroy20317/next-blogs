@@ -10,7 +10,11 @@ import SEO from './SEO';
 import Footer from './Footer';
 import type { FC, ReactNode } from 'react';
 
-const Layout: FC<{ children: ReactNode; isHome?: boolean }> = ({ children, isHome }) => (
+const Layout: FC<{ children: ReactNode; hideHeader?: boolean; hideFooter?: boolean }> = ({
+  children,
+  hideHeader,
+  hideFooter,
+}) => (
   <>
     <Head>
       <meta charSet="utf-8" />
@@ -28,11 +32,11 @@ const Layout: FC<{ children: ReactNode; isHome?: boolean }> = ({ children, isHom
       <link rel="icon" type="image/x-icon" href="https://cdn.leroy.net.cn/images/icon.ico" />
     </Head>
     <main>
-      {!isHome && <Header />}
+      {!hideHeader && <Header />}
       {children}
-      <SEO />
     </main>
-    <Footer />
+    <SEO />
+    {!hideFooter && <Footer />}
   </>
 );
 export default Layout;

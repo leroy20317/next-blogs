@@ -58,6 +58,7 @@ const Header = () => {
       await audioRef.current?.play();
       setPlayStatus('pause');
     } catch (err) {
+      console.log('自动播放音乐 err', err);
       message.error('自动播放音乐出现错误，请点击左上角进行播放！', 3);
     }
   };
@@ -151,10 +152,10 @@ const Header = () => {
           className={classNames({
             [styles.title]: true,
             [styles.active]: scroll_current >= 100,
+            [styles.show]: header.titleShow,
           })}
         >
           {header.title}
-          title
         </div>
 
         <div

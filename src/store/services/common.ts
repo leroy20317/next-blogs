@@ -35,3 +35,18 @@ export async function articleLike(likeId?: string) {
     method: 'PUT',
   });
 }
+
+// 一句话列表页
+export async function fetchEnvelopes(params: { page: number }) {
+  return api<API.Response<API.Envelope.List>>(Url.envelope, {
+    method: 'GET',
+    params,
+  });
+}
+
+// 关于我页
+export async function fetchAbout() {
+  return api<API.Response<API.About>>(Url.about, {
+    method: 'GET',
+  });
+}

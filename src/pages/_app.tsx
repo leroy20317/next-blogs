@@ -13,7 +13,6 @@ import 'antd/dist/antd.css';
 import '@/styles/global.scss';
 import '@/styles/var.scss';
 import '@/styles/iconfont.scss';
-import { clearPending } from '@/utils/api';
 import type { NextPage } from 'next';
 import Layout from '@/layout';
 import Loading from '@/components/Loading';
@@ -58,7 +57,6 @@ function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
       setLoading(true);
     };
     const handleStop = () => {
-      clearPending();
       setLoading(false);
     };
 
@@ -91,7 +89,6 @@ function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
 }
 
 MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async (appContext) => {
-  const appProps = await App.getInitialProps(appContext);
   const {
     ctx: { req },
   } = appContext;
@@ -102,6 +99,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async (appContext)
       console.log('e', e);
     }
   }
+  const appProps = await App.getInitialProps(appContext);
   return { ...appProps };
 });
 

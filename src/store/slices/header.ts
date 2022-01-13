@@ -9,6 +9,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface HeaderState {
   title?: string;
+  titleShow?: boolean;
   music?: string;
   likeId?: string;
   sticky: boolean;
