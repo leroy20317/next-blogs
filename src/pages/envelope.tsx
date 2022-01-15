@@ -60,7 +60,7 @@ Envelope.getInitialProps = async ({ store, req }) => {
     }),
   );
   await store.dispatch(saveTDK({ title: `一封信 | ${info?.web.name}` }));
-  if (!list) {
+  if (!list || list.page < list.totalPage) {
     if (req) {
       await store.dispatch(getEnvelopes());
     } else {

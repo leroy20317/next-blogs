@@ -22,6 +22,7 @@ import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
 import NextImage from 'next/image';
+import { saveTDK } from '@/store/slices/seo';
 
 const Home: NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -276,13 +277,22 @@ const Home: NextPage & {
 Home.getLayout = (page) => <Layout hideHeader>{page}</Layout>;
 Home.getInitialProps = async ({ store, req, query }) => {
   const { list } = (store.getState() as AppState).home;
-  if (!list) {
+
+  if (!list || list.page < list.totalPage) {
     if (req) {
       await store.dispatch(getArticles());
     } else {
       store.dispatch(getArticles());
     }
   }
+  await store.dispatch(
+    saveTDK({
+      title: "Leroy's Blog",
+      keywords: 'Leroy,Blog',
+      description:
+        'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...',
+    }),
+  );
   return { query };
 };
 

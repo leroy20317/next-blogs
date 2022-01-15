@@ -4,9 +4,11 @@
  * @description：useScroll
  */
 import lodash from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const useScroll = (scrollFn?: Function) => {
+  // 之前滚动条位置
+  const prevCurrent = useRef<number>(0);
   // 当前滚动条位置
   const [scroll_current, setCurrent] = useState(0);
   // 滚动条触底
@@ -21,16 +23,22 @@ const useScroll = (scrollFn?: Function) => {
   const handleScroll = () => {
     const type = ['scrollTop', 'scrollHeight', 'clientHeight'];
     const [top, height, windowHeight] = type.map((i) => getWin(i));
-
+    // console.log('[top, height, windowHeight]', {
+    //   top,
+    //   height,
+    //   windowHeight,
+    //   scroll_current: current.current,
+    // });
     if (height === windowHeight) {
       // 兼容路由切换
       return;
     }
-    if (scroll_current && top) {
+    if (prevCurrent.current && top) {
       // 判断方向
-      const direction = top - scroll_current < 0 ? 'top' : 'bottom';
+      const direction = top - prevCurrent.current < 0 ? 'top' : 'bottom';
       setDirection(direction);
     }
+    prevCurrent.current = top;
     setCurrent(top);
     setIsBottom(top + windowHeight >= height - 10);
     scrollFn?.();

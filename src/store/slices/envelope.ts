@@ -55,7 +55,7 @@ export const getEnvelopes = createAsyncThunk<API.Envelope.List | undefined>(
         // 加载更多延时500ms
         if (page > 1) await waitTime(500);
         dispatch(saveList(data));
-        dispatch(saveStatus(data.total === data.totalPage ? 'nomore' : 'more'));
+        dispatch(saveStatus(data.page >= data.totalPage ? 'nomore' : 'more'));
         return data;
       }
       return undefined;

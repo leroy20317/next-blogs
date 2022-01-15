@@ -29,6 +29,14 @@ export async function fetchMoods(params: { page: number; mood: 1 }) {
   });
 }
 
+// 文章详情页
+export async function fetchMoodDetail(params: { id: string }) {
+  return api<API.Response<API.Article.Detail>>(`${Url.article}/${params.id}`, {
+    method: 'GET',
+    params,
+  });
+}
+
 // 点赞
 export async function articleLike(likeId?: string) {
   return api<API.Response>(`${Url.article_like}/${likeId}`, {

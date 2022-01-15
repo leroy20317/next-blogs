@@ -26,13 +26,12 @@ const Header = () => {
   const [isLike, setIsLike] = useState(false);
   const [likeHint, setLikeHint] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [changeClass, setChangeClass] = useState<'show' | 'exit' | ''>('');
   const [playStatus, setPlayStatus] = useState<'play' | 'pause'>('play');
   const [dashArray] = useState<number>(Math.PI * 100);
   const dashOffset = useMemo(() => (1 - progress) * dashArray, [dashArray, progress]);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const { scroll_current, scroll_direction } = useScroll();
+  const { scroll_current } = useScroll();
   const toPage = (path: string) => {
     router.push(path);
   };
@@ -100,21 +99,13 @@ const Header = () => {
     }
   };
 
-  // 吸顶
   useEffect(() => {
-    if (!header.sticky) return;
-    if (scroll_current >= 100) {
-      if (scroll_direction === 'top') {
-        setChangeClass('show');
-        return;
-      }
-      if (changeClass === 'show') {
-        setChangeClass('exit');
-        return;
-      }
+    if (header.likeId) {
+      const liked = localStorage.getItem(`like-${header.likeId}`);
+      console.log('liked', header.likeId, liked);
+      if (liked) setIsLike(true);
     }
-    setChangeClass('');
-  }, [header.sticky, scroll_current]);
+  }, [header.likeId]);
 
   // 音乐
   useEffect(() => {
@@ -123,16 +114,15 @@ const Header = () => {
   }, [header.autoPlayMusic]);
 
   return (
-    <header>
+    <header style={{ height: 50 }}>
       <div
         className={classNames({
           [styles['header-content']]: true,
-          [changeClass]: true,
+          [styles.show]: header.sticky && scroll_current >= 100,
         })}
       >
         <div
           className={classNames({
-            [styles.l]: true,
             [styles.icon]: true,
           })}
         >
@@ -160,7 +150,6 @@ const Header = () => {
 
         <div
           className={classNames({
-            [styles.r]: true,
             [styles.icon]: true,
           })}
         >
@@ -169,7 +158,9 @@ const Header = () => {
             <Iconfont
               type="like"
               className={classNames({
-                like: isLike,
+                [styles.iconfont]: true,
+                [styles['icon-like']]: true,
+                [styles.like]: isLike,
               })}
               onClick={onLike}
             />
@@ -184,7 +175,7 @@ const Header = () => {
         {header.likeId && (
           <div
             className={classNames({
-              [styles['"like-hint-box"']]: true,
+              [styles['like-hint-box']]: true,
               [styles.likeHint]: likeHint,
             })}
           >

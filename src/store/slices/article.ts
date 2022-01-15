@@ -6,18 +6,20 @@
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchMoods } from '../services/common';
+import { fetchMoodDetail, fetchMoods } from '../services/common';
 import type { AppState } from '@/store/store';
 import { waitTime } from '@/utils/util';
 
 export interface ArticleState {
   list: API.Article.Mood | undefined;
   status: API.LoadingStatus;
+  detail: API.Article.Detail | undefined;
 }
 
 const initialState: ArticleState = {
   list: undefined,
   status: undefined,
+  detail: undefined,
 };
 
 export const articleSlice = createSlice({
@@ -30,10 +32,13 @@ export const articleSlice = createSlice({
     saveStatus: (state, action: PayloadAction<ArticleState['status']>) => {
       state.status = action.payload;
     },
+    saveDetail: (state, action: PayloadAction<ArticleState['detail']>) => {
+      state.detail = action.payload;
+    },
   },
 });
 
-export const { saveList, saveStatus } = articleSlice.actions;
+export const { saveList, saveStatus, saveDetail } = articleSlice.actions;
 
 export const getArticles = createAsyncThunk<API.Article.Mood | undefined>(
   'article/getArticles',
@@ -68,12 +73,29 @@ export const getArticles = createAsyncThunk<API.Article.Mood | undefined>(
         }
 
         dispatch(saveList(result));
-        dispatch(saveStatus(result?.total === result?.totalPage ? 'nomore' : 'more'));
+        dispatch(saveStatus(result && result.page >= result.totalPage ? 'nomore' : 'more'));
         return result;
       }
       return undefined;
     } catch (e) {
       console.log('article/getArticles', e);
+      return undefined;
+    }
+  },
+);
+
+export const getDetail = createAsyncThunk<API.Article.Detail | undefined, { id: string }>(
+  'article/getDetail',
+  async (params, { dispatch }) => {
+    try {
+      const { body, status } = await fetchMoodDetail(params);
+      if (status === 'success') {
+        dispatch(saveDetail(body));
+        return body;
+      }
+      return undefined;
+    } catch (e) {
+      console.log('article/getDetail', e);
       return undefined;
     }
   },

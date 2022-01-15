@@ -98,7 +98,7 @@ Article.getInitialProps = async ({ store, req }) => {
     saveHeaderData({ title: '加油啦', music: info?.bg_music.mood, autoPlayMusic: true }),
   );
   await store.dispatch(saveTDK({ title: `Article | ${info?.web.name}` }));
-  if (!list) {
+  if (!list || list.page < list.totalPage) {
     if (req) {
       await store.dispatch(getArticles());
     } else {
