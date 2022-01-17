@@ -13,6 +13,7 @@ module.exports = {
     '@typescript-eslint/dot-notation': 0,
     '@typescript-eslint/consistent-type-imports': 2,
     '@typescript-eslint/no-invalid-this':0,
-    'no-underscore-dangle': 0
+    'no-underscore-dangle': 0,
+    '@next/next/no-img-element': 0
   },
 };

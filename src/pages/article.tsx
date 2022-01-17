@@ -40,7 +40,7 @@ const Article: NextPage = () => {
                       {moods.map((article) => (
                         <li key={article._id}>
                           <div className={styles['item-l']}>
-                            <Link href={`/${article._id}`}>
+                            <Link href={`/${article._id}`} passHref>
                               <div className={styles.img}>
                                 <img
                                   src={

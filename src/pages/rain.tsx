@@ -69,7 +69,7 @@ const Rain = () => {
   };
   return (
     <div className={styles.rain} style={{ backgroundImage: src ? `url(${src})` : undefined }}>
-      <Link href="/">
+      <Link href="/" passHref>
         <div className={styles['logo-img']}>Leroy</div>
       </Link>
 
@@ -77,14 +77,16 @@ const Rain = () => {
         className={styles.words}
         src={`${Url.staticHost}/image/rain/words.png`}
         draggable="false"
+        alt=""
       />
       <ul className={styles.option}>
         {icons.map((icon, index) => (
-          <li key={index}>
+          <li key={icon.music}>
             <span onClick={() => onMusic(index, icon.active)}>
               <img
                 src={icon.active ? `${Url.staticHost}${icon.on}` : `${Url.staticHost}${icon.off}`}
                 draggable="false"
+                alt=""
               />
             </span>
             <audio

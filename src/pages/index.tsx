@@ -199,7 +199,14 @@ const Home: NextPage & {
       >
         <div className={styles.scene} ref={scene} style={{ height: size.height || 0 }}>
           <div className={styles.layer} data-depth="0.4" style={layerStyle}>
-            <img className={styles.image} style={imgStyle} src={src} width="1920" height="1080" />
+            <img
+              className={styles.image}
+              style={imgStyle}
+              src={src}
+              width="1920"
+              height="1080"
+              alt=""
+            />
           </div>
         </div>
         <div className={styles.head}>
