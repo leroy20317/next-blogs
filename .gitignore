@@ -8,6 +8,6 @@ build
 build.zip
 .env.local
 
-package-lock.json
-yarn.lock
+.swc
 .eslintcache
+.env*
