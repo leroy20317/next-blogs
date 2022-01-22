@@ -61,9 +61,9 @@ jobs:
           echo SECRETKEY="$SECRETKEY" >> .env
         shell: bash
 
-      # build
-      - name: Build
-        run: npm run build
+      # Publish
+      - name: Publish
+        run: npm run publish
 
       # tar
       - name: Tar dist
