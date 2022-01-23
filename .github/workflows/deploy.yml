@@ -25,11 +25,11 @@ jobs:
       #          args: git submodule update --init --recursive
 
       # 使用 node:14
-      - name: use Node.js 14
+      - name: use Node.js 16
         id: cache
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
 
 #      # 缓存 node modules
 #      - name: Cache node modules
@@ -49,7 +49,9 @@ jobs:
       # npm install
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: |
+        npm -v
+        npm install
 
       # Create .env
       - name: Create .env
