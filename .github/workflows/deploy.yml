@@ -50,8 +50,8 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-        npm -v
-        npm install
+          npm -v
+          npm install
 
       # Create .env
       - name: Create .env
