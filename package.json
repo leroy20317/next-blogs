@@ -52,6 +52,7 @@
     "react-redux": "^7.2.6",
     "sass": "^1.45.0",
     "umi-request": "^1.4.0",
+    "webpack": "^5.67.0",
     "yet-another-abortcontroller-polyfill": "^0.0.4"
   },
   "devDependencies": {
