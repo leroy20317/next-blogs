@@ -20,8 +20,7 @@ const nextConfig = {
   },
   excludeDefaultMomentLocales: true,
   env: {
-    // API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://localhost:5001/web',
-    API_HOST: 'http://api.leroy.net.cn/web',
+    API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://api.leroy.net.cn/web',
     STATIC_HOST: isProd ? `//cdn.leroy.net.cn/${name}/static` : '/static',
   },
 
