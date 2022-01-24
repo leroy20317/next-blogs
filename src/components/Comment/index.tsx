@@ -4,9 +4,28 @@
  * @description：评论
  */
 import GitalkComponent from 'gitalk/dist/gitalk-component';
+import Gitalk from 'gitalk';
 import 'gitalk/dist/gitalk.css';
+import { useEffect, useRef } from 'react';
 
 const Comment = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) {
+      new Gitalk({
+        clientID: 'ca94e280d87a0145c117',
+        clientSecret: 'a1f79cb33e9e77df658c8840b64376d9aee45ca4',
+        // clientID: '76115496854f5aa5eb99',
+        // clientSecret: '57b777f30aaa08bbfecf69004751887ac94372ef',
+        repo: 'blog-comments', // The repository of store comments,
+        owner: 'leroy20317',
+        admin: ['leroy20317'],
+        id: window.location.pathname, // Ensure uniqueness and length less than 50
+        distractionFreeMode: false, // Facebook-like distraction free mode
+      }).render(ref.current);
+    }
+  }, []);
+
   return (
     <div style={{ paddingBottom: 50 }}>
       <GitalkComponent
@@ -22,6 +41,8 @@ const Comment = () => {
           distractionFreeMode: false, // Facebook-like distraction free mode
         }}
       />
+
+      <div ref={ref}></div>
       <style>{`.gt-container .gt-meta{z-index: initial}`}</style>
     </div>
   );
