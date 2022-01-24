@@ -48,7 +48,7 @@ const Detail: NextPage = () => {
         className={styles.content}
         dangerouslySetInnerHTML={{ __html: data?.contentHtml || '' }}
       />
-      <Comment />
+      <Comment clientSecret={process.env.CLIENT_SECRET} clientID={process.env.CLIENT_ID} />
     </section>
   );
 };

@@ -22,6 +22,8 @@ const nextConfig = {
   env: {
     API_HOST: isProd ? 'https://api.leroy.net.cn/web' : 'http://api.leroy.net.cn/web',
     STATIC_HOST: isProd ? `//cdn.leroy.net.cn/${name}/static` : '/static',
+    CLIENT_SECRET: process.env.CLIENT_SECRET,
+    CLIENT_ID: process.env.CLIENT_ID,
   },
 
   // cdn in production and localhost for development

@@ -243,7 +243,7 @@ const Home: NextPage & {
                 <div className={styles.time}>
                   {moment(item.time).locale('zh-cn').format('MMMM DD, YYYY')}
                 </div>
-                <Link href={`/${item._id}`}>
+                <Link href={`/article/${item._id}`}>
                   <a className={styles.title}>{item.title}</a>
                 </Link>
                 <div className={styles.describe}>{item.describe}</div>

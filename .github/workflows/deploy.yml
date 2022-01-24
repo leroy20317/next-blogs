@@ -57,9 +57,13 @@ jobs:
         env:
           ACCESSKEY: ${{ secrets.ACCESSKEY }}
           SECRETKEY: ${{ secrets.SECRETKEY }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
         run: |
           echo ACCESSKEY="$ACCESSKEY" >> .env
           echo SECRETKEY="$SECRETKEY" >> .env
+          echo CLIENT_SECRET="$CLIENT_SECRET" >> .env
+          echo CLIENT_ID="$CLIENT_ID" >> .env
         shell: bash
 
       # Publish
