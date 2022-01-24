@@ -26,10 +26,11 @@ jobs:
 
       # 使用 node:14
       - name: use Node.js 16
-        id: cache
+        id: node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
+          cache: true
 
 #      # 缓存 node modules
 #      - name: Cache node modules
@@ -48,7 +49,7 @@ jobs:
 
       # npm install
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.node.outputs.cache-hit != 'true'
         run: |
           npm -v
           npm install
@@ -69,7 +70,7 @@ jobs:
 
       # tar
       - name: Tar dist
-        run: tar zcf build.tar.gz build package.json package-lock.json next.config.js .env
+        run: tar zcf build.tar.gz build package.json package-lock.json next.config.js
 
       # Deploy
       - name: Deploy

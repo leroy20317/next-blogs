@@ -13,6 +13,8 @@ const Comment = () => {
         option={{
           clientID: 'ca94e280d87a0145c117',
           clientSecret: 'a1f79cb33e9e77df658c8840b64376d9aee45ca4',
+          // clientID: '76115496854f5aa5eb99',
+          // clientSecret: '57b777f30aaa08bbfecf69004751887ac94372ef',
           repo: 'blog-comments', // The repository of store comments,
           owner: 'leroy20317',
           admin: ['leroy20317'],
