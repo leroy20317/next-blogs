@@ -36,6 +36,19 @@ const Header = () => {
     router.push(path);
   };
 
+  useEffect(() => {
+    const fn = () => {
+      setProgress(0);
+      setPlayStatus('play');
+      audioRef.current?.pause();
+    };
+    if (router) router.events.on('routeChangeStart', fn);
+
+    return () => {
+      if (router) router.events.off('routeChangeStart', fn);
+    };
+  }, [router]);
+
   // 切换播放状态
   const changeMusic = async () => {
     // 正在播放

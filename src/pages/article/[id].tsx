@@ -58,35 +58,39 @@ Detail.getInitialProps = async ({ store, req, query }) => {
     common: { info },
   } = store.getState() as AppState;
 
-  const fetch = async () => {
-    await store
-      .dispatch(getDetail({ id: query.id as string }))
-      .then(async ({ payload }: { payload: API.Article.Detail }) => {
-        await store.dispatch(
-          saveHeaderData({
-            title: payload.title,
-            music: payload.music.url,
-            autoPlayMusic: true,
-            sticky: true,
-            likeId: payload._id,
-          }),
-        );
-        await store.dispatch(
-          saveTDK({
-            title: `${payload.title} | ${info?.web.name}`,
-            keywords: info?.web.seo,
-            description: payload.describe,
-          }),
-        );
-      });
+  const save = async (payload) => {
+    await store.dispatch(
+      saveHeaderData({
+        title: payload.title,
+        music: payload.music.url,
+        autoPlayMusic: true,
+        sticky: true,
+        likeId: payload._id,
+      }),
+    );
+    await store.dispatch(
+      saveTDK({
+        title: `${payload.title} | ${info?.web.name}`,
+        keywords: info?.web.seo,
+        description: payload.describe,
+      }),
+    );
   };
-  if (!detail || detail._id !== query.id) {
-    if (req) {
-      await fetch();
-    } else {
-      fetch();
+
+  const fetch = async () => {
+    if (!detail || detail._id !== query.id) {
+      const { payload } = await store.dispatch(getDetail({ id: query.id as string }));
+      await save(payload);
+      return;
     }
+    await save(detail);
+  };
+  if (req) {
+    await fetch();
+  } else {
+    fetch();
   }
+
   return { title: info?.web.name };
 };
 export default Detail;
