@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       # 切换分支
       - name: Checkout
         uses: actions/checkout@v2
@@ -86,34 +85,22 @@ jobs:
           ssh_options: ''
           src: 'build.tar.gz'
           dest: '${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/wwwroot/next-blogs'
+
+      # 远程Command
+      - name: Command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            whereis build.tar.gz
-#      # Deploy
-#      - name: Deploy
-#        uses: easingthemes/ssh-deploy@v2
-#        env:
-#          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_TOKEN_PEM }}
-#          ARGS: "-avz --delete"
-#          SOURCE: "build.tar.gz"
-#          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#          TARGET: '/wwwroot/next-blogs'
-#
-#      # 远程Command
-#      - name: Command
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.REMOTE_HOST }}
-#          username: ${{ secrets.REMOTE_USER }}
-#          key: ${{ secrets.ACCESS_TOKEN }}
-#          script: |
-#            cd /wwwroot/next-blogs
-#            tar zxf build.tar.gz
-#            rm build.tar.gz
-#            export NVM_DIR=~/.nvm
-#            source ~/.nvm/nvm.sh
-#            npm i
-#            pm2 delete next-blogs
-#            npm run pm2
-#            pm2 save
-#            echo "Complete!!!"
+            cd /wwwroot/next-blogs
+            tar zxf build.tar.gz
+            rm build.tar.gz
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm i
+            pm2 delete next-blogs
+            npm run pm2
+            pm2 save
+            echo "Complete!!!"
