@@ -70,7 +70,7 @@ Detail.getInitialProps = async ({ store, req, query }) => {
     );
     await store.dispatch(
       saveTDK({
-        title: `${payload.title} | ${info?.web.name}`,
+        title: `${payload.title}`,
         keywords: info?.web.seo,
         description: payload.describe,
       }),
