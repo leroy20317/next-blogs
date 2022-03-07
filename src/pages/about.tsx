@@ -9,11 +9,14 @@ import { saveHeaderData } from '@/store/slices/header';
 import { saveTDK } from '@/store/slices/seo';
 import { getAbout } from '@/store/slices/common';
 import styles from '@/styles/pages/about.module.scss';
+import ReactMarkdown from 'react-markdown';
 
 const About = () => {
   const about = useAppSelector((state) => state.common.about);
   return (
-    <div className={styles.about} dangerouslySetInnerHTML={{ __html: about?.contentHtml || '' }} />
+    <div className={styles.about}>
+      <ReactMarkdown>{about?.content || ''}</ReactMarkdown>
+    </div>
   );
 };
 
