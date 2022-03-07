@@ -13,6 +13,7 @@ import moment from 'moment';
 import LoadMore from '@/components/LoadMore';
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
+import ReactMarkdown from 'react-markdown';
 
 const Envelope: NextPage = () => {
   const { list, status } = useAppSelector((state) => state.envelope);
@@ -28,10 +29,9 @@ const Envelope: NextPage = () => {
         <>
           {list?.data.map((envelope) => (
             <div className={styles.item} key={envelope._id}>
-              <div
-                className={styles.text}
-                dangerouslySetInnerHTML={{ __html: envelope.contentHtml }}
-              />
+              <div className={styles.text}>
+                <ReactMarkdown>{envelope?.content || ''}</ReactMarkdown>
+              </div>
               <div className={styles.time}>
                 {moment(envelope.time).locale('en').format('MMM Do, YYYY')}
               </div>
