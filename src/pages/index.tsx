@@ -234,7 +234,7 @@ const Home: NextPage & {
         <div className={styles.content}>
           {list?.data.map((item) => (
             <div key={item._id} className={styles.post}>
-              <Link href={`/${item._id}`}>
+              <Link href={`/article/${item._id}`}>
                 <a className={styles['img-box']}>
                   <NextImage src={item.image.url} alt={item.image.name} layout="fill" />
                 </a>
@@ -251,7 +251,7 @@ const Home: NextPage & {
                   {infoIcon.map((icon) => (
                     <div key={icon.icon}>
                       <Iconfont className={styles.iconfont} type={icon.icon} />
-                      <span>{item[icon.name]}</span>
+                      <span>{icon.name === 'words' ? item.content.length : item[icon.name]}</span>
                       <span className={styles.hint} style={{ backgroundColor: icon.color }}>
                         {icon.text}
                         <i style={{ borderTopColor: icon.color }} />

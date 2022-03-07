@@ -63,8 +63,6 @@ declare namespace API {
       _id: string;
       title: string;
       content: string;
-      contentHtml: string;
-      words: number;
       time: string;
       describe: string;
       __v: number;
@@ -91,7 +89,6 @@ declare namespace API {
     type Detail = {
       _id: string;
       content: string;
-      contentHtml: string;
       time: string;
       __v: number;
     };
@@ -107,7 +104,6 @@ declare namespace API {
   type About = {
     _id: string;
     content: string;
-    contentHtml: string;
     __v: number;
   };
 }

@@ -17,6 +17,7 @@ import 'moment/locale/zh-cn';
 import { useScroll, useSize } from 'ahooks';
 import { useEffect, useState } from 'react';
 
+const Markdown = dynamic(() => import('@/components/Markdown'), { ssr: false });
 const Comment = dynamic(() => import('@/components/Comment'), { ssr: false });
 
 const Detail: NextPage = () => {
@@ -41,13 +42,12 @@ const Detail: NextPage = () => {
       <div className={styles.stuff}>
         <span>{moment(data?.time).locale('zh-cn').format('MMMM DD, YYYY')}</span>
         <span>阅读 {data?.read}</span>
-        <span>字数 {data?.words}</span>
+        <span>字数 {data?.content.length}</span>
         <span>喜欢 {data?.like}</span>
       </div>
-      <div
-        className={styles.content}
-        dangerouslySetInnerHTML={{ __html: data?.contentHtml || '' }}
-      />
+      <div className={styles.content}>
+        <Markdown value={data?.content || ''} />
+      </div>
       <Comment clientSecret={process.env.CLIENT_SECRET} clientID={process.env.CLIENT_ID} />
     </section>
   );

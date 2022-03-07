@@ -23,7 +23,7 @@ jobs:
       #        with:
       #          args: git submodule update --init --recursive
 
-      # 使用 node:14
+      # 使用 node:16
       - name: use Node.js 16
         uses: actions/setup-node@v2
         with:

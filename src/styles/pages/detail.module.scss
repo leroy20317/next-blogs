@@ -47,27 +47,28 @@
   .content {
     padding: 100px 0;
     color: var(--color-text-1);
-    font-size: 14px;
-    // box-shadow: none !important;
-    // min-height: auto;
-    // background: var(--color-bg-primary);
-    // color: var(--color-text-1);
+    font-size: 16px;
+
+    pre {
+      overflow: hidden;
+    }
+    code:not([class^='language']) {
+      margin: 0;
+      padding: 0.2em 0.4em;
+      font-size: 85%;
+      background-color: var(--color-code-bg);
+      border-radius: 6px;
+    }
     p {
       margin: 0 0 22px;
-      font-size: 16px;
       line-height: 36px;
       mark {
         display: inline-block;
         padding: 4px 4px 0;
-        font-size: 16px;
         line-height: 22px;
       }
       strong {
         font-weight: bold;
-        font-size: 16px;
-      }
-      ins {
-        font-size: 16px;
       }
     }
     h1,
@@ -77,6 +78,7 @@
     h5 {
       margin: 0 0 22px;
       padding: 0;
+      color: #000;
       font-size: revert;
       line-height: 28px;
       border: 0;
@@ -103,10 +105,14 @@
     ul,
     ol {
       margin: 0 0 20px;
+      padding-left: 2em;
       li {
         margin: 10px 0;
         line-height: 28px;
       }
+    }
+    ol li {
+      list-style: auto;
     }
     ul li {
       position: relative;
