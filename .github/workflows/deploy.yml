@@ -95,6 +95,7 @@ jobs:
           key: ${{ secrets.ACCESS_TOKEN }}
           script: |
             cd /wwwroot/next-blogs
+            rm -rf build
             tar zxf build.tar.gz
             rm build.tar.gz
             export NVM_DIR=~/.nvm
