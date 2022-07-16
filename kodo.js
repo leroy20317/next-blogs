@@ -93,7 +93,7 @@ rd.each(
           console.log(error);
         }
       }).then(function () {
-        console.log(`上传文件至 https://cdn.leroy.net.cn${ossName} 成功`);
+        console.log(`上传文件至 https://cdn.leroy.net.cn/${ossName} 成功`);
       });
     }
     next();
