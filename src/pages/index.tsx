@@ -294,7 +294,7 @@ Home.getInitialProps = async ({ store, req, query }) => {
   }
   await store.dispatch(
     saveTDK({
-      title: "个人技术生活分享",
+      title: "时光 | 小窝",
       keywords: 'Leroy,Blog',
       description:
         'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...',
