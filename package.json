@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next  -p 5500 -H local.leroy.net.cn",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next  -p 5500 -H local.leroytop.com",
     "build": "next build",
-    "start-local": "next start -p 5500 -H local.leroy.net.cn",
+    "start-local": "next start -p 5500 -H local.leroytop.com",
     "start": "next start -p 5500",
     "publish": "next build && node kodo.js",
     "pm2": "pm2 start npm --no-pmx --name next-blogs -- start",

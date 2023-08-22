@@ -15,7 +15,7 @@ const SEO: FC = () => {
       <meta name="keywords" content={keywords} />
       <meta name="description" content={description} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content="https://cdn.leroy.net.cn/images/icon.png" />
+      <meta property="og:image" content="https://cdn.leroytop.com/images/icon.png" />
     </Head>
   );
 };
