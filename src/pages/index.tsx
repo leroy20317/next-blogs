@@ -7,8 +7,8 @@ import type { NextPage } from 'next';
 import Link from 'next/link';
 import styles from '@/styles/pages/home.module.scss';
 
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 import LoadMore from '@/components/LoadMore';
 import classNames from 'classnames';
 import type { CSSProperties, ReactElement, ReactNode } from 'react';
@@ -21,7 +21,7 @@ import Iconfont from '@/components/Iconfont';
 import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
-import NextImage from 'next/image';
+import NextImage from 'next/legacy/image';
 import { saveTDK } from '@/store/slices/seo';
 
 const Home: NextPage & {
@@ -218,12 +218,10 @@ const Home: NextPage & {
         <div className={styles.misk} style={{ backgroundColor: info?.cover.color }} />
         <div className={styles.post}>
           <div className={styles.time}>
-            {moment(info?.cover?.date).locale('zh-cn').format('MMMM DD, YYYY')}
+            {dayjs(info?.cover?.date).locale('zh-cn').format('MMMM DD, YYYY')}
           </div>
-          <Link href={info?.cover.link || ''}>
-            <a className={styles.title} title={info?.cover.title}>
-              {info?.cover.title}
-            </a>
+          <Link href={info?.cover.link || ''} className={styles.title} title={info?.cover.title}>
+            {info?.cover.title}
           </Link>
           <div className={styles.describe}>{info?.cover?.description}</div>
         </div>
@@ -234,17 +232,15 @@ const Home: NextPage & {
         <div className={styles.content}>
           {list?.data.map((item) => (
             <div key={item._id} className={styles.post}>
-              <Link href={`/article/${item._id}`}>
-                <a className={styles['img-box']}>
-                  <NextImage src={item.image.url} alt={item.image.name} layout="fill" />
-                </a>
+              <Link href={`/article/${item._id}`} className={styles['img-box']}>
+                <NextImage src={item.image.url} alt={item.image.name} layout="fill" />
               </Link>
               <div className={styles.info}>
                 <div className={styles.time}>
-                  {moment(item.time).locale('zh-cn').format('MMMM DD, YYYY')}
+                  {dayjs(item.time).locale('zh-cn').format('MMMM DD, YYYY')}
                 </div>
-                <Link href={`/article/${item._id}`}>
-                  <a className={styles.title}>{item.title}</a>
+                <Link href={`/article/${item._id}`} className={styles.title}>
+                  {item.title}
                 </Link>
                 <div className={styles.describe}>{item.describe}</div>
                 <div className={styles.stuff}>
@@ -294,7 +290,7 @@ Home.getInitialProps = async ({ store, req, query }) => {
   }
   await store.dispatch(
     saveTDK({
-      title: "时光 | 小窝",
+      title: '时光 | 小窝',
       keywords: 'Leroy,Blog',
       description:
         'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...',

@@ -9,7 +9,7 @@ import { saveHeaderData } from '@/store/slices/header';
 import { saveTDK } from '@/store/slices/seo';
 import { getEnvelopes } from '@/store/slices/envelope';
 import styles from '@/styles/pages/envelope.module.scss';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import LoadMore from '@/components/LoadMore';
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
@@ -33,7 +33,7 @@ const Envelope: NextPage = () => {
                 <ReactMarkdown>{envelope?.content || ''}</ReactMarkdown>
               </div>
               <div className={styles.time}>
-                {moment(envelope.time).locale('en').format('MMM Do, YYYY')}
+                {dayjs(envelope.time).locale('en').format('MMM Do, YYYY')}
               </div>
             </div>
           ))}

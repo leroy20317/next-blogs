@@ -12,35 +12,40 @@ import { getDetail } from '@/store/slices/article';
 import type { NextPage } from 'next';
 import { useAppSelector } from '@/store/store';
 import dynamic from 'next/dynamic';
-import moment from 'moment';
-import 'moment/locale/zh-cn';
-import { useScroll, useSize } from 'ahooks';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import { useSize, useScroll } from 'ahooks';
 import { useEffect, useState } from 'react';
 
 const Markdown = dynamic(() => import('@/components/Markdown'), { ssr: false });
 const Comment = dynamic(() => import('@/components/Comment'), { ssr: false });
 
-const Detail: NextPage = () => {
-  const { detail: data } = useAppSelector((state) => ({ detail: state.article.detail }));
-  // 进度条
+// 进度条
+const Scrollbar = () => {
   const [progress, setProgress] = useState(0);
   const size = useSize(() => document.body);
-  const scroll = useScroll(() => document);
+  const { top: scrollTop } = useScroll(() => document) || {};
   useEffect(() => {
-    if (size?.height && scroll?.top) {
-      setProgress(scroll.top / (size.height - window.innerHeight));
+    if (size?.height && scrollTop) {
+      setProgress(scrollTop / (size.height - window.innerHeight));
       return;
     }
-    if (!scroll?.top) {
+    if (!scrollTop) {
       setProgress(0);
     }
-  }, [size, scroll]);
+  }, [size?.height, scrollTop]);
+  return <div className={styles.scrollbar} style={{ transform: `scaleX(${progress})` }} />;
+};
+
+const Detail: NextPage = () => {
+  const { detail: data } = useAppSelector((state) => ({ detail: state.article.detail }));
   return (
     <section className={styles.detail}>
-      <div className={styles.scrollbar} style={{ transform: `scaleX(${progress})` }} />
+      <Scrollbar />
+
       <h1 className={styles.title}>{data?.title}</h1>
       <div className={styles.stuff}>
-        <span>{moment(data?.time).locale('zh-cn').format('MMMM DD, YYYY')}</span>
+        <span>{dayjs(data?.time).locale('zh-cn').format('MMMM DD, YYYY')}</span>
         <span>阅读 {data?.read}</span>
         <span>字数 {data?.content.length}</span>
         <span>喜欢 {data?.like}</span>

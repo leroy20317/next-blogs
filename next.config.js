@@ -9,16 +9,11 @@ const isProd = process.env.NODE_ENV === 'production';
 /**
  * @type {import('next').NextConfig}
  **/
-const nextConfig = {
+let nextConfig = {
   distDir: 'build',
   // 默认压缩，不用额外配置compression
   compress: true,
-  sentry: {
-    // 本地及测试环境禁用sentry
-    disableServerWebpackPlugin: true,
-    disableClientWebpackPlugin: true,
-  },
-  excludeDefaultMomentLocales: true,
+  transpilePackages: ['ahooks'],
   env: {
     API_HOST: isProd ? 'https://api.leroytop.com/web' : 'http://api.leroytop.com/web',
     STATIC_HOST: isProd ? `//cdn.leroytop.com/${name}/static` : '/static',
@@ -36,9 +31,6 @@ const nextConfig = {
     minimumCacheTTL: 24 * 3600,
     domains: ['cdn.leroytop.com', 'api.leroytop.com'],
   },
-  api: {
-    bodyParser: true,
-  },
   sassOptions: {
     // 写入额外变量
     additionalData: isProd
@@ -46,20 +38,21 @@ const nextConfig = {
       : `$static: '/static';`,
     // prependData:  isProd ? `@import "@/styles/config/prod.scss";` : `@import "@/styles/config/dev.scss";`,
   },
-  swcMinify: true,
-  experimental: {
+  compiler: {
     removeConsole: isProd,
   },
 };
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+if (process.env.ANALYZE === 'true') {
+  nextConfig = require('@next/bundle-analyzer')({
+    enabled: true,
+  });
+}
 
 // const sentryWebpackPluginOptions = {
 //   // silent: true, // Suppresses all logs
 //   debug: true,
 // };
+// nextConfig = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
 
-module.exports = withBundleAnalyzer(nextConfig);
-// module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+module.exports = nextConfig;

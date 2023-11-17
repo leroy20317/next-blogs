@@ -10,12 +10,12 @@ import { useRouter } from 'next/router';
 import Iconfont from '@/components/Iconfont';
 import useScroll from '@/hooks/useScroll';
 import { useAppSelector } from '@/store/store';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { message } from 'antd';
 import useInterval from '@/hooks/useInterval';
 import { articleLike } from '@/store/services/common';
 
-let timer: NodeJS.Timer | null = null;
+let timer: NodeJS.Timeout | null = null;
 
 const Header = () => {
   const { info, header } = useAppSelector((state) => ({

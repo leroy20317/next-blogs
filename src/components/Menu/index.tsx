@@ -45,9 +45,7 @@ const Menu = () => {
       <ul className={styles['nav-list']}>
         {list.map((item) => (
           <li key={item.title}>
-            <Link href={`/${item.url}`}>
-              <a>{item.title}</a>
-            </Link>
+            <Link href={`/${item.url}`}>{item.title}</Link>
           </li>
         ))}
       </ul>

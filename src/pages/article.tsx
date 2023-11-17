@@ -11,12 +11,12 @@ import type { NextPage } from 'next';
 import styles from '@/styles/pages/article.module.scss';
 import { saveHeaderData } from '@/store/slices/header';
 import Url from '@/utils/url';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { saveTDK } from '@/store/slices/seo';
 import LoadMore from '@/components/LoadMore';
 import Link from 'next/link';
 
-moment.locale('en');
+dayjs.locale('en');
 const enMon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 const Article: NextPage = () => {
   const { list, status } = useAppSelector((state) => ({
@@ -24,14 +24,15 @@ const Article: NextPage = () => {
     status: state.article.status,
   }));
   const dispatch = useAppDispatch();
+
   return (
     <div className={styles['article-list']}>
       <section className={styles.list}>
         {list && Object.keys(list.data).length > 0 ? (
           <>
-            {Object.entries(list.data).map(([year, value]) => (
+            {Object.entries(list.data).map(([year, value]: [string, any]) => (
               <div key={year} className={styles['year-list']}>
-                {Object.entries(value).map(([month, moods]) => (
+                {Object.entries(value).map(([month, moods]: [string, any]) => (
                   <ul key={month} className={styles['month-list']}>
                     <li className={styles.month}>
                       {enMon[Number(month) - 1]}, {year.slice(1, 5)}
@@ -51,16 +52,14 @@ const Article: NextPage = () => {
                               </div>
                             </Link>
                             <div className={styles.tit}>
-                              <Link href={`/article/${article._id}`}>
-                                <a>{article.title}</a>
-                              </Link>
+                              <Link href={`/article/${article._id}`}>{article.title}</Link>
                               <span>
                                 {article.like} LIKE / {article.read} READ
                               </span>
                             </div>
                           </div>
                           <span className={styles['item-r']}>
-                            {moment(article.time).format('Do')}
+                            {dayjs(article.time).format('D')}th
                           </span>
                         </li>
                       ))}

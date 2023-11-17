@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import { wrapper } from '@/store/store';
 
-import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 import '@/styles/global.scss';
 import '@/styles/var.scss';
 import '@/styles/iconfont.scss';
