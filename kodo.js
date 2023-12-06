@@ -1,56 +1,35 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const path = require('path');
-const qiniu = require('qiniu');
 const rd = require('rd');
 const co = require('co');
-const folderName = require('./package.json').name;
-const accessKey = process.env.ACCESSKEY;
-const secretKey = process.env.SECRETKEY;
 
-const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-const config = new qiniu.conf.Config({
-  zone: qiniu.zone.Zone_z2, // 华南
+const { S3, PutObjectCommand } = require('@aws-sdk/client-s3');
+const fs = require('fs');
+const folderName = require('./package.json').name;
+
+// // 创建 七牛 S3 客户端对象
+const kodoClient = new S3({
+  region: 'z2',
+  endpoint: 'https://s3.cn-south-1.qiniucs.com',
+  credentials: { accessKeyId: process.env.ACCESSKEY, secretAccessKey: process.env.SECRETKEY },
 });
 
-const options = { scope: 'leroy20317', expires: 7200 };
-const putPolicy = new qiniu.rs.PutPolicy(options);
-const uploadToken = putPolicy.uploadToken(mac);
-
-const formUploader = new qiniu.form_up.FormUploader(config);
-const putExtra = new qiniu.form_up.PutExtra();
-
-const upload = function (key, localFile) {
-  return new Promise((resolve, reject) => {
-    // 文件上传
-    formUploader.putFile(
-      uploadToken,
-      key,
-      localFile,
-      putExtra,
-      function (respErr, respBody, respInfo) {
-        putExtra.mimeType = null; // 重置MIME类型
-        if (respErr) {
-          reject(respErr);
-          throw respErr;
-        }
-        resolve(respBody);
-        if (respInfo.statusCode === 200) {
-          // console.log(respBody);
-        } else {
-          console.log(respInfo.statusCode);
-          console.log(respBody);
-        }
-      },
-    );
-  });
-};
+// 文件上传
+function upload(key, localFile) {
+  return kodoClient.send(
+    new PutObjectCommand({
+      Bucket: 'leroy20317',
+      Key: key,
+      Body: fs.createReadStream(localFile),
+    }),
+  );
+}
 
 // 异步遍历目录下的所有文件
 rd.each(
   path.join(__dirname, './build/static'),
   function (f, s, next) {
-    putExtra.mimeType = null;
     if (s.isFile()) {
       let ossName = f.replace(path.join(__dirname, '/build'), `${folderName}/_next`);
       ossName = path.normalize(ossName).replace(/\\/g, '/');
@@ -77,7 +56,6 @@ rd.each(
 rd.each(
   path.join(__dirname, './public/static'),
   function (f, s, next) {
-    putExtra.mimeType = null;
     if (s.isFile()) {
       let ossName = f.replace(__dirname, folderName);
       ossName = path
