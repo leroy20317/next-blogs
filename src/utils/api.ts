@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+declare module 'axios' {
+  export interface AxiosResponse <T = any> extends Promise<T> { }
+}
+
 const instance = axios.create({
   baseURL:
     typeof window === 'undefined'
