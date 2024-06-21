@@ -8,7 +8,7 @@
     "start-local": "next start -p 5500 -H local.leroytop.com",
     "start": "next start -p 5500",
     "publish": "next build",
-    "pm2": "pm2 start npm --no-pmx --name next-blogs -- start",
+    "pm2": "pm2 start pnpm --no-pmx --name next-blogs -- start",
     "type-check": "tsc",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
