@@ -75,6 +75,7 @@ jobs:
           echo COMMENT_CLIENT_SECRET="COMMENT_CLIENT_SECRET" >> .env
           echo COMMENT_CLIENT_ID="COMMENT_CLIENT_ID" >> .env
         shell: bash
+
       # build
       - name: Build
         run: pnpm run build
