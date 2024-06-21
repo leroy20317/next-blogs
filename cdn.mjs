@@ -1,26 +1,31 @@
-const dotenv = require('dotenv');
+import dotenv from 'dotenv'
 dotenv.config();
-const path = require('path');
-const rd = require('rd');
-const co = require('co');
+import { fileURLToPath } from 'url';
+import path from 'path'
+import rd from 'rd'
+import co from 'co'
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import fs from 'fs'
+import mime from 'mime';
+import packageJson from './package.json' assert { type: "json"}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const {name: folderName} = packageJson
 
-const { S3, PutObjectCommand } = require('@aws-sdk/client-s3');
-const fs = require('fs');
-const folderName = require('./package.json').name;
-
-// // 创建 七牛 S3 客户端对象
-const kodoClient = new S3({
-  region: 'z2',
-  endpoint: 'https://s3.cn-south-1.qiniucs.com',
-  credentials: { accessKeyId: process.env.ACCESSKEY, secretAccessKey: process.env.SECRETKEY },
+// 创建 S3 客户端对象
+const S3 = new S3Client({
+  region: process.env.REGION,
+  endpoint: process.env.ENDPOINT,
+  credentials: { accessKeyId: process.env.ACCESS_KEY_ID, secretAccessKey: process.env.SECRET_ACCESS_KEY },
+  forcePathStyle: true, // 对于非 AWS S3 兼容服务，通常需要设置为 true
 });
 
 // 文件上传
-function upload(key, localFile) {
-  return kodoClient.send(
+function uploadFile(key, localFile) {
+  return S3.send(
     new PutObjectCommand({
-      Bucket: 'leroy20317',
+      Bucket: process.env.BUCKET,
       Key: key,
+      ContentType: mime.getType(localFile),
       Body: fs.createReadStream(localFile),
     }),
   );
@@ -36,7 +41,7 @@ rd.each(
 
       co(function* () {
         try {
-          const result = yield upload(ossName, f);
+          const result = yield uploadFile(ossName, f);
           return result;
         } catch (error) {
           console.log(error);
@@ -65,7 +70,7 @@ rd.each(
 
       co(function* () {
         try {
-          const result = yield upload(ossName, f);
+          const result = yield uploadFile(ossName, f);
           return result;
         } catch (error) {
           console.log(error);

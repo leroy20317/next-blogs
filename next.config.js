@@ -1,8 +1,5 @@
 // @ts-check
 
-const { name } = require('./package.json');
-// const { withSentryConfig } = require('@sentry/nextjs');
-
 const isProd = process.env.NODE_ENV === 'production';
 // const isProd = false;
 
@@ -15,10 +12,10 @@ let nextConfig = {
   compress: true,
   transpilePackages: ['ahooks'],
   env: {
-    API_HOST: isProd ? 'https://api.leroytop.com/web' : 'http://api.leroytop.com/web',
-    STATIC_HOST: isProd ? `//cdn.leroytop.com/${name}/static` : '/static',
-    CLIENT_SECRET: process.env.CLIENT_SECRET,
-    CLIENT_ID: process.env.CLIENT_ID,
+    API_HOST: 'https://api.leroytop.com/web',
+    STATIC_HOST: '/static',
+    COMMENT_CLIENT_SECRET: process.env.COMMENT_CLIENT_SECRET,
+    COMMENT_CLIENT_ID: process.env.COMMENT_CLIENT_ID,
   },
 
   // cdn in production and localhost for development
@@ -33,9 +30,7 @@ let nextConfig = {
   },
   sassOptions: {
     // 写入额外变量
-    additionalData: isProd
-      ? `$static: '//cdn.leroytop.com/${name}/static';`
-      : `$static: '/static';`,
+    additionalData: `$static: '/static';`,
     // prependData:  isProd ? `@import "@/styles/config/prod.scss";` : `@import "@/styles/config/dev.scss";`,
   },
   compiler: {

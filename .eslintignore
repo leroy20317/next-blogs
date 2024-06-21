@@ -14,7 +14,7 @@ oss.js
 server.js
 sentry.client.config.js
 sentry.server.config.js
-cdn.js
+cdn.mjs
 build
 .prettierignore
 .gitignore

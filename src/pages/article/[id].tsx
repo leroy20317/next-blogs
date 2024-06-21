@@ -53,7 +53,7 @@ const Detail: NextPage = () => {
       <div className={styles.content}>
         <Markdown value={data?.content || ''} />
       </div>
-      <Comment clientSecret={process.env.CLIENT_SECRET} clientID={process.env.CLIENT_ID} />
+      <Comment clientSecret={process.env.COMMENT_CLIENT_SECRET} clientID={process.env.COMMENT_CLIENT_ID} />
     </section>
   );
 };
