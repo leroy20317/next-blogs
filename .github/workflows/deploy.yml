@@ -51,29 +51,39 @@ jobs:
           pnpm -v
           pnpm install
 
+      # build
+      - name: Build
+        run: pnpm run build
+
       # Create .env
       - name: Create .env
         env:
+          COMMENT_CLIENT_SECRET: ${{ secrets.COMMENT_CLIENT_SECRET }}
+          COMMENT_CLIENT_ID: ${{ secrets.COMMENT_CLIENT_ID }}
+        run: |
+          echo COMMENT_CLIENT_SECRET="COMMENT_CLIENT_SECRET" >> .env
+          echo COMMENT_CLIENT_ID="COMMENT_CLIENT_ID" >> .env
+        shell: bash
+
+        # Create .env
+#      - name: Create .env
+#        env:
 #          BUCKET: ${{ secrets.BUCKET }}
 #          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
 #          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
 #          ENDPOINT: ${{ secrets.ENDPOINT }}
 #          REGION: ${{ secrets.REGION }}
-          COMMENT_CLIENT_SECRET: ${{ secrets.COMMENT_CLIENT_SECRET }}
-          COMMENT_CLIENT_ID: ${{ secrets.COMMENT_CLIENT_ID }}
-        run: |
+#          COMMENT_CLIENT_SECRET: ${{ secrets.COMMENT_CLIENT_SECRET }}
+#          COMMENT_CLIENT_ID: ${{ secrets.COMMENT_CLIENT_ID }}
+#        run: |
 #          echo BUCKET="BUCKET" >> .env
 #          echo ACCESS_KEY_ID="ACCESS_KEY_ID" >> .env
 #          echo SECRET_ACCESS_KEY="SECRET_ACCESS_KEY" >> .env
 #          echo ENDPOINT="ENDPOINT" >> .env
 #          echo REGION="REGION" >> .env
-          echo COMMENT_CLIENT_SECRET="COMMENT_CLIENT_SECRET" >> .env
-          echo COMMENT_CLIENT_ID="COMMENT_CLIENT_ID" >> .env
-        shell: bash
-
-      # build
-      - name: Build
-        run: pnpm run build
+#          echo COMMENT_CLIENT_SECRET="COMMENT_CLIENT_SECRET" >> .env
+#          echo COMMENT_CLIENT_ID="COMMENT_CLIENT_ID" >> .env
+#        shell: bash
 
       # tar
       - name: Tar dist
