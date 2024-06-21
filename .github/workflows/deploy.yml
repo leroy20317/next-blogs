@@ -105,7 +105,7 @@ jobs:
             rm build.tar.gz
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            npm i
+            pnpm i
             pm2 stop next-blogs
             pm2 delete next-blogs
             npm run pm2
