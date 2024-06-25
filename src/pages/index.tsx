@@ -21,7 +21,6 @@ import Iconfont from '@/components/Iconfont';
 import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
-import NextImage from 'next/legacy/image';
 import { saveTDK } from '@/store/slices/seo';
 
 const Home: NextPage & {
@@ -47,9 +46,7 @@ const Home: NextPage & {
     marginTop: 0,
   });
   const [imgStyle, setImgStyle] = useState<CSSProperties>({});
-  const [src, setSrc] = useState<string>(`${info?.cover.image}?imageView2/2/w/800/q/50/blur/3x5
-`);
-  const [loading, setLoading] = useState<boolean | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(true);
   const scene = useRef<HTMLDivElement>(null);
   const parallax = useRef<Parallax>();
   const [infoIcon] = useState([
@@ -145,7 +142,6 @@ const Home: NextPage & {
     if (info) {
       const time = new Date().getTime();
       setLoading(true);
-
       // Cover image loading is complete
       const img = new Image();
       img.src = info?.cover.image || '';
@@ -154,26 +150,25 @@ const Home: NextPage & {
         let timer = 500 - new Date().getTime() + time;
         timer = timer < 0 ? 0 : timer;
         setTimeout(() => {
-          setSrc(info?.cover.image || '');
           setLoading(false);
         }, timer);
       };
-
-      // Cover image init
-      parallax.current = new Parallax(scene.current!, {
-        relativeInput: true,
-        clipRelativeInput: true,
-      });
     }
-    return () => {
-      parallax.current?.destroy?.();
-    };
   }, [info]);
 
   useEffect(() => {
-    if (loading === false) {
-      console.log('首页图片加载完成');
+    if (loading) {
+      return undefined;
     }
+    console.log('首页图片加载完成');
+    // Cover image init
+    parallax.current = new Parallax(scene.current!, {
+      relativeInput: true,
+      clipRelativeInput: true,
+    });
+    return () => {
+      parallax.current?.destroy?.();
+    };
   }, [loading]);
 
   useEffect(() => {
@@ -202,7 +197,7 @@ const Home: NextPage & {
             <img
               className={styles.image}
               style={imgStyle}
-              src={src}
+              src={info?.cover.image}
               width="1920"
               height="1080"
               alt=""
@@ -233,7 +228,7 @@ const Home: NextPage & {
           {list?.data.map((item) => (
             <div key={item._id} className={styles.post}>
               <Link href={`/article/${item._id}`} className={styles['img-box']}>
-                <NextImage src={item.image.url} alt={item.image.name} layout="fill" />
+                <img src={item.image.url} alt={item.image.name} />
               </Link>
               <div className={styles.info}>
                 <div className={styles.time}>

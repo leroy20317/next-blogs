@@ -29,7 +29,7 @@ const Layout: FC<{ children: ReactNode; hideHeader?: boolean; hideFooter?: boole
       />
       <meta content="yes" name="apple-mobile-web-app-capable" />
       <meta content="yes" name="apple-touch-fullscreen" />
-      <link rel="icon" type="image/x-icon" href="/icon.ico" />
+      <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     </Head>
     <main>
       {!hideHeader && <Header />}
