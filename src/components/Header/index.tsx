@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import Iconfont from '@/components/Iconfont';
 import useScroll from '@/hooks/useScroll';
 import { useAppSelector } from '@/store/store';
-import Image from 'next/legacy/image';
 import { message } from 'antd';
 import useInterval from '@/hooks/useInterval';
 import { articleLike } from '@/store/services/common';
@@ -180,7 +179,7 @@ const Header = () => {
           )}
 
           <span className={styles.myself} onClick={toPage.bind(undefined, '/about')}>
-            <Image src={info?.admin?.avatar || ''} alt="" width={26} height={26} loading="eager" />
+            <img src={info?.admin?.avatar || ''} alt="" width={26} height={26} loading="eager" />
           </span>
         </div>
 
