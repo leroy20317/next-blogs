@@ -77,7 +77,7 @@ jobs:
 
       # tar
       - name: Tar dist
-        run: tar zcf build.tar.gz build public package.json package-lock.json pnpm-lock.yaml next.config.js
+        run: tar zcf build.tar.gz build public package.json .env package-lock.json pnpm-lock.yaml next.config.js
 
       # Deploy to server
       - name: Deploy to server
