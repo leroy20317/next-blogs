@@ -19,7 +19,8 @@
     "lint:prettier": "prettier --check \"src/**/*\" --end-of-line auto",
     "lint:style": "stylelint --fix \"src/**/*.scss\" --syntax=scss",
     "precommit": "lint-staged",
-    "prettier": "prettier -c --write \"src/**/*\""
+    "prettier": "prettier -c --write \"src/**/*\"",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.scss": "npm run lint:style",
