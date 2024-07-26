@@ -21,7 +21,6 @@ import Iconfont from '@/components/Iconfont';
 import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
-import { saveTDK } from '@/store/slices/seo';
 
 const Home: NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
