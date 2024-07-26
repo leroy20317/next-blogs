@@ -283,14 +283,7 @@ Home.getInitialProps = async ({ store, req, query }) => {
       store.dispatch(getArticles());
     }
   }
-  await store.dispatch(
-    saveTDK({
-      title: '时光 | 小窝',
-      keywords: 'Leroy,Blog',
-      description:
-        'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...',
-    }),
-  );
+
   return { query };
 };
 
