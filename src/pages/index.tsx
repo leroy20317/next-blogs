@@ -21,6 +21,7 @@ import Iconfont from '@/components/Iconfont';
 import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
+import { saveTDK } from '@/store/slices/seo';
 
 const Home: NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -204,7 +205,7 @@ const Home: NextPage & {
           </div>
         </div>
         <div className={styles.head}>
-          <div className={styles['logo-img']}>Leroy</div>
+          <div className={styles['logo-img']}>Leroy‘s Blogs</div>
           <div className={styles.menu} onClick={() => setIsNav(!isNav)}>
             <Iconfont className={styles.iconfont} type={isNav ? 'close' : 'menu'} />
           </div>
@@ -273,7 +274,10 @@ const Home: NextPage & {
 
 Home.getLayout = (page) => <Layout hideHeader>{page}</Layout>;
 Home.getInitialProps = async ({ store, req, query }) => {
-  const { list } = (store.getState() as AppState).home;
+  const {
+    home: { list },
+    common: { info },
+  } = store.getState() as AppState;
 
   if (!list || list.page < list.totalPage) {
     if (req) {
@@ -282,7 +286,11 @@ Home.getInitialProps = async ({ store, req, query }) => {
       store.dispatch(getArticles());
     }
   }
-
+  await store.dispatch(
+    saveTDK({
+      title: info?.web?.name || 'Leroy‘s Blogs',
+    }),
+  );
   return { query };
 };
 

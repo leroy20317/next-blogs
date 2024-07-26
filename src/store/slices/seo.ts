@@ -13,7 +13,7 @@ export type SEOState = Partial<{
 }>;
 
 const initialState: SEOState = {
-  title: "Leroy's Blog",
+  title: "Leroy's Blogs",
   keywords: 'Leroy,Blog',
   description:
     'Good morning, and in case I don’t see you, good afternoon, good evening, and good night...',
