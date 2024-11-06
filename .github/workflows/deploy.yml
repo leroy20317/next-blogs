@@ -46,12 +46,6 @@ jobs:
           echo COMMENT_CLIENT_ID="${{ secrets.COMMENT_CLIENT_ID }}" >> .env
         shell: bash
 
-      # npm install
-      - name: Install Dependencies
-        run: |
-          pnpm -v
-          pnpm install
-
       # build
       - name: Build
         run: pnpm run build
