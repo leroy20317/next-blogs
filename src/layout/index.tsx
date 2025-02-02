@@ -19,7 +19,6 @@ const Layout: FC<{ children: ReactNode; hideHeader?: boolean; hideFooter?: boole
     <Head>
       <meta charSet="utf-8" />
       <meta name="Author" content="Leroy" />
-      <meta name="baidu-site-verification" content="uGgzMZ4ZfV" />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
       <meta httpEquiv="cleartype" content="on" />
       <meta name="HandheldFriENDly" content="True" />
