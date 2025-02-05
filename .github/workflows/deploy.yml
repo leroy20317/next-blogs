@@ -52,7 +52,7 @@ jobs:
 
       # tar
       - name: Tar dist
-        run: tar zcf build.tar.gz --exclude=build/cache build public scripts package.json pnpm-lock.yaml next.config.js
+        run: tar zcf build.tar.gz --exclude=build/cache build public package.json pnpm-lock.yaml next.config.js
 
       # Deploy to server
       - name: Deploy to server
