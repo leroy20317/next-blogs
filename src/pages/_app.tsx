@@ -18,24 +18,12 @@ import Layout from '@/layout';
 import Loading from '@/components/Loading';
 
 import { ConfigProvider } from 'antd';
-import { checkServer } from '@/utils/util';
 import { getInfo } from '@/store/slices/common';
 import App from 'next/app';
 import { Provider } from 'react-redux';
 import dynamic from 'next/dynamic';
 
 const CreatePortal = dynamic(() => import('@/components/CreatePortal'), { ssr: false });
-
-if (!checkServer()) {
-  // 定制 antd 主题
-  ConfigProvider.config({
-    theme: {
-      infoColor: '#24292e',
-      primaryColor: '#0084ff',
-      errorColor: '#ff3600',
-    },
-  });
-}
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -74,7 +62,15 @@ function MyApp({ Component, pageProps, ...other }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
   return (
     <Provider store={store}>
-      <ConfigProvider>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorInfo: '#24292e',
+            colorPrimary: '#0084ff',
+            colorError: '#ff3600',
+          },
+        }}
+      >
         {getLayout(
           <>
             <CreatePortal>

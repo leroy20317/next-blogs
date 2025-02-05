@@ -16,12 +16,12 @@ import { useEffect, useRef, useState } from 'react';
 import type { AppState } from '@/store/store';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import Parallax from 'parallax-js';
-import lodash from 'lodash';
+import { throttle } from 'lodash-es';
 import Iconfont from '@/components/Iconfont';
 import Menu from '@/components/Menu';
 import { getArticles } from '@/store/slices/home';
 import Layout from '@/layout';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 
 const Home: NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -123,7 +123,7 @@ const Home: NextPage & {
     }
   }, [layerStyle]);
 
-  const onResize = lodash.throttle(() => {
+  const onResize = throttle(() => {
     setSize({
       width: document.documentElement.clientWidth || 0,
       height: document.documentElement.clientHeight || 0,
@@ -287,7 +287,7 @@ Home.getInitialProps = async ({ store, req, query }) => {
     }
   }
   await store.dispatch(
-    saveTDK({
+    saveSEO({
       title: info?.web?.name || 'Leroy‘s Blogs',
     }),
   );

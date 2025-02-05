@@ -1,7 +1,5 @@
 **/*.svg
 package.json
-.umi
-.umi-production
 /dist
 .dockerignore
 .DS_Store
@@ -15,11 +13,12 @@ Dockerfile*
 .prettierignore
 LICENSE
 .eslintcache
-.eslintrc.js
+*.config.js
 *.lock
+cdn.js
 yarn-error.log
 .history
 CNAME
 /build
 /public
-node_modules/**/*
+node_modules

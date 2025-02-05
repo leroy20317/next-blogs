@@ -1,9 +1,11 @@
-/**
- * @author: leroy
- * @date: 2021-12-25 10:57
- * @description：LoadMore
+/*
+ * @Author: leroy
+ * @Date: 2021-12-26 16:46:27
+ * @LastEditTime: 2025-02-05 11:08:44
+ * @Description: LoadMore
  */
-import lodash from 'lodash';
+
+import { times } from 'lodash-es';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import type { FC } from 'react';
@@ -18,7 +20,7 @@ const LoadMore: FC<{ status: API.LoadingStatus }> = ({ status }) => {
     >
       {status === 'loading' ? (
         <div className={styles.loader}>
-          {lodash.times(5, String).map((item) => (
+          {times(5, String).map((item) => (
             <div className={styles.dot} key={item} />
           ))}
         </div>

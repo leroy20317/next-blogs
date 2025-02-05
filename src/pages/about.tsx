@@ -1,12 +1,14 @@
-/**
- * @author: leroy
- * @date: 2022-01-13 14:55
- * @description：about
+/*
+ * @Author: leroy
+ * @Date: 2022-01-13 14:55:49
+ * @LastEditTime: 2025-02-05 11:10:57
+ * @Description: about
  */
+
 import type { AppState } from '@/store/store';
 import { useAppSelector } from '@/store/store';
 import { saveHeaderData } from '@/store/slices/header';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 import { getAbout } from '@/store/slices/common';
 import styles from '@/styles/pages/about.module.scss';
 import ReactMarkdown from 'react-markdown';
@@ -33,7 +35,7 @@ About.getInitialProps = async ({ store, req }) => {
       titleShow: true,
     }),
   );
-  await store.dispatch(saveTDK({ title: `你好呀，陌生人！` }));
+  await store.dispatch(saveSEO({ title: `你好呀，陌生人！` }));
   if (!about) {
     if (req) {
       await store.dispatch(getAbout());

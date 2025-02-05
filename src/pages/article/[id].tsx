@@ -1,13 +1,14 @@
 /**
- * @author: leroy
- * @date: 2022-01-15 10:32
- * @description：[id]
+ * @Author: leroy
+ * @Date: 2022-01-15 10:32
+ * @LastEditTime: 2025-02-05 11:12:58
+ * @Description: [id]
  */
 
 import styles from '@/styles/pages/detail.module.scss';
 import type { AppState } from '@/store/store';
 import { saveHeaderData } from '@/store/slices/header';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 import { getDetail } from '@/store/slices/article';
 import type { NextPage } from 'next';
 import { useAppSelector } from '@/store/store';
@@ -53,7 +54,10 @@ const Detail: NextPage = () => {
       <div className={styles.content}>
         <Markdown value={data?.content || ''} />
       </div>
-      <Comment clientSecret={process.env.COMMENT_CLIENT_SECRET} clientID={process.env.COMMENT_CLIENT_ID} />
+      <Comment
+        clientSecret={process.env.COMMENT_CLIENT_SECRET}
+        clientID={process.env.COMMENT_CLIENT_ID}
+      />
     </section>
   );
 };
@@ -74,7 +78,7 @@ Detail.getInitialProps = async ({ store, req, query }) => {
       }),
     );
     await store.dispatch(
-      saveTDK({
+      saveSEO({
         title: `${payload.title}`,
         keywords: info?.web.seo,
         description: payload.describe,
@@ -84,8 +88,8 @@ Detail.getInitialProps = async ({ store, req, query }) => {
 
   const fetch = async () => {
     if (!detail || detail._id !== query.id) {
-      const { payload } = await store.dispatch(getDetail({ id: query.id as string }));
-      await save(payload);
+      const data = await store.dispatch(getDetail({ id: query.id as string })).unwrap();
+      await save(data);
       return;
     }
     await save(detail);

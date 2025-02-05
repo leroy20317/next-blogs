@@ -1,9 +1,10 @@
-/**
- * @author: leroy
- * @date: 2021-12-12 15:15
- * @description：useScroll
+/*
+ * @Author: leroy
+ * @Date: 2021-12-12 15:15
+ * @LastEditTime: 2025-02-05 11:09:22
+ * @Description: useScroll
  */
-import lodash from 'lodash';
+import { throttle } from 'lodash-es';
 import { useEffect, useRef, useState } from 'react';
 
 const useScroll = (scrollFn?: Function) => {
@@ -44,7 +45,7 @@ const useScroll = (scrollFn?: Function) => {
     scrollFn?.();
   };
   useEffect(() => {
-    const fn = lodash.throttle(handleScroll, 100);
+    const fn = throttle(handleScroll, 100);
     fn();
     window.addEventListener('scroll', fn);
     return () => {

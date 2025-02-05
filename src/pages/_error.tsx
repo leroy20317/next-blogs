@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import useInterval from '@/hooks/useInterval';
 import { useRouter } from 'next/router';
 import styles from '@/styles/pages/error.module.scss';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 
 const errTitle = {
   404: '404 | Sorry, the page you visited does not exist.',
@@ -73,7 +73,7 @@ const ErrorPage: NextPage<{ statusCode?: number }> = () => {
 
 ErrorPage.getInitialProps = async ({ res, err }) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  await saveTDK({ title: errTitle[statusCode || 404] });
+  await saveSEO({ title: errTitle[statusCode || 404] });
   return { statusCode };
 };
 

@@ -1,7 +1,8 @@
 /**
  * @author: leroy
- * @date: 2022-01-13 15:46
- * @description：rain
+ * @Date: 2022-01-13 15:46
+ * @LastEditTime: 2025-02-05 11:12:18
+ * @Description: rain
  */
 
 import styles from '@/styles/pages/rain.module.scss';
@@ -11,7 +12,7 @@ import { useEffect, useRef, useState } from 'react';
 import Layout from '@/layout';
 import classNames from 'classnames';
 import { Progress } from 'antd';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 
 const Rain = () => {
   const [icons, setIcons] = useState([
@@ -127,7 +128,7 @@ Rain.getLayout = (page) => (
 );
 Rain.getInitialProps = async ({ store }) => {
   await store.dispatch(
-    saveTDK({
+    saveSEO({
       title: `Rainy Day`,
       description:
         '下雨了，打湿心扉的，不是突如其来的雨点，是人情冷暖。一辆黑色的轿车，嘎然而止，一声亲切的呼唤，上车吧！',

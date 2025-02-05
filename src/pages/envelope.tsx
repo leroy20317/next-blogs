@@ -1,12 +1,13 @@
 /**
- * @author: leroy
- * @date: 2022-01-13 11:36
- * @description：envelope
+ * @Author: leroy
+ * @Date: 2022-01-13 11:36
+ * @LastEditTime: 2025-02-05 11:11:48
+ * @Description: envelope
  */
 import type { AppState } from '@/store/store';
 import { useAppSelector } from '@/store/store';
 import { saveHeaderData } from '@/store/slices/header';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 import { getEnvelopes } from '@/store/slices/envelope';
 import styles from '@/styles/pages/envelope.module.scss';
 import dayjs from 'dayjs';
@@ -59,7 +60,7 @@ Envelope.getInitialProps = async ({ store, req }) => {
       autoPlayMusic: true,
     }),
   );
-  await store.dispatch(saveTDK({ title: `一封信 | ${info?.web.name}` }));
+  await store.dispatch(saveSEO({ title: `一封信 | ${info?.web.name}` }));
   if (!list || list.page < list.totalPage) {
     if (req) {
       await store.dispatch(getEnvelopes());

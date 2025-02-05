@@ -1,12 +1,12 @@
-/**
- * @author: leroy
- * @date: 2021/8/23 16:09
- * @description：store
+/*
+ * @Author: leroy
+ * @Date: 2021-12-26 16:46:27
+ * @LastEditTime: 2025-02-05 11:00:52
+ * @Description: store
  */
-import type { ThunkAction, Action } from '@reduxjs/toolkit';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
-import type { TypedUseSelectorHook } from 'react-redux';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { combineReducers } from 'redux';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
@@ -57,8 +57,9 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = <TSelected>(selector: (state: AppState) => TSelected) => {
+  return useSelector(selector, shallowEqual);
+};
 
-export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
-
-export const wrapper = createWrapper<AppStore>(makeStore, { debug: false });
+export const wrapper = createWrapper<AppStore>(makeStore);

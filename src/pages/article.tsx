@@ -1,7 +1,8 @@
 /**
- * @author: leroy
- * @date: 2022-01-09 14:57
- * @description：article
+ * @Author: leroy
+ * @Date: 2022-01-09 14:57
+ * @LastEditTime: 2025-02-05 11:11:18
+ * @Description: article
  */
 
 import type { AppState } from '@/store/store';
@@ -12,7 +13,7 @@ import styles from '@/styles/pages/article.module.scss';
 import { saveHeaderData } from '@/store/slices/header';
 import Url from '@/utils/url';
 import dayjs from 'dayjs';
-import { saveTDK } from '@/store/slices/seo';
+import { saveSEO } from '@/store/slices/seo';
 import LoadMore from '@/components/LoadMore';
 import Link from 'next/link';
 
@@ -101,7 +102,7 @@ Article.getInitialProps = async ({ store, req }) => {
       likeId: '',
     }),
   );
-  await store.dispatch(saveTDK({ title: `Article | ${info?.web.name}` }));
+  await store.dispatch(saveSEO({ title: `Article | ${info?.web.name}` }));
   if (!list || list.page < list.totalPage) {
     if (req) {
       await store.dispatch(getArticles());

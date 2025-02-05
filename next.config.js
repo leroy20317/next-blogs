@@ -1,7 +1,13 @@
-// @ts-check
+/*
+ * @Author: leroy
+ * @Date: 2025-02-05 14:14:18
+ * @LastEditTime: 2025-02-05 14:19:07
+ * @Description: 
+ */
 
 const isProd = process.env.NODE_ENV === 'production';
 // const isProd = false;
+const baseDomain = '.leroytop.com';
 
 /**
  * @type {import('next').NextConfig}
@@ -12,7 +18,8 @@ let nextConfig = {
   compress: true,
   transpilePackages: ['ahooks'],
   env: {
-    API_HOST: 'https://api.leroytop.com/web',
+    BASE_DOMAIN: baseDomain,
+    API_HOST: `https://api${baseDomain}/web`,
     STATIC_HOST: '/static',
     COMMENT_CLIENT_SECRET: process.env.COMMENT_CLIENT_SECRET,
     COMMENT_CLIENT_ID: process.env.COMMENT_CLIENT_ID,
@@ -26,7 +33,7 @@ let nextConfig = {
   // },
   images: {
     minimumCacheTTL: 24 * 3600,
-    domains: ['cdn.leroytop.com', 'api.leroytop.com'],
+    domains: [`api${baseDomain}`, `cdn${baseDomain}`],
   },
   sassOptions: {
     // 写入额外变量
@@ -50,4 +57,4 @@ if (process.env.ANALYZE === 'true') {
 // };
 // nextConfig = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
 
-module.exports = nextConfig;
+export default nextConfig;
